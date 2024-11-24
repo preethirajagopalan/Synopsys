@@ -1,0 +1,151 @@
+
+AM04-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/0   152.164.157.118 YES manual up                    up
+
+CA06-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/1   152.187.95.198  YES NVRAM  up                    up
+
+CA09-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+CA14-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/1   147.225.67.254  YES NVRAM  up                    up
+
+CA42-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/0   199.220.247.18  YES NVRAM  up                    up
+CL01-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/0   152.161.250.30  YES NVRAM  up                    up
+
+CN30-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/0   192.168.1.253   YES NVRAM  up                    up
+
+CN34-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/0   192.168.2.253   YES NVRAM  up                    up
+
+CN42-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/1   192.168.3.253   YES NVRAM  up                    up
+
+CN58-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/0   192.168.7.253   YES NVRAM  up                    up
+
+CN63-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/0   192.168.5.253   YES NVRAM  up                    up
+
+DE02-mpls-router Interface                  IP-Address      OK? Method Status                Protocol
+
+DE06-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+
+DK03-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/2   206.115.121.150 YES manual up                    up
+
+FI01-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/1   68.139.8.254    YES manual up                    up
+
+FI03-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/2   68.139.69.174   YES manual up                    up
+
+FR03-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/1   199.220.232.122 YES manual up                    up
+
+FR42-mpls-router er#sh ip
+FR65-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/2   152.176.205.150 YES manual up                    up
+GB01-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/1   147.225.122.162 YES NVRAM  up                    up
+
+GB11-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/1   199.220.2.242   YES manual up                    up
+
+GB12-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/1   68.136.115.194  YES NVRAM  up                    up
+
+GB14-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+Gi0/0/1.44             152.177.31.126  YES NVRAM  up                    up
+GB15-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+
+GB50-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/1   199.220.188.162 YES NVRAM  up                    up
+
+GB72-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/1   152.164.160.38  YES manual up                    up
+
+INDC-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/0.3 147.225.171.22  YES NVRAM  up                    up
+
+JP01-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/0   68.138.199.86   YES NVRAM  up                    up
+
+KR02-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/0   199.220.155.138 YES NVRAM  up                    up
+
+MDC-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+NL03-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/1   152.183.134.174 YES manual up                    up
+
+NL20-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/1   68.137.115.26   YES manual up                    up
+
+PT01-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/1   68.137.29.198   YES NVRAM  up                    up
+
+PT02-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/1   65.250.20.254   YES NVRAM  up                    up
+
+SE80-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/1   199.220.96.6    YES manual up                    up
+
+SG01-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/0   152.162.236.222 YES NVRAM  up                    up
+
+SV1-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/0   68.138.182.66   YES manual up                    up
+
+SV2-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/0   152.183.27.194  YES manual up                    up
+
+TW01-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/0   147.225.217.86  YES NVRAM  up                    up
+
+TW04-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/1   68.137.201.86   YES NVRAM  up                    up
+
+TW52-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/0   152.187.60.70   YES NVRAM  up                    up
+
+US04-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+
+US05-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/0   147.225.12.194  YES NVRAM  up                    up
+
+US08-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/0   152.176.120.86  YES NVRAM  up                    up
+
+US11-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/0   152.187.12.18   YES NVRAM  up                    up
+
+US16-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/0   68.136.177.142  YES NVRAM  up                    up
+
+US1A-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/0   152.162.156.78  YES NVRAM  up                    up
+
+US26-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/0   152.176.28.186  YES manual up                    up
+US36-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/1   152.161.164.82  YES NVRAM  up                    up
+
+US54-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/0   152.185.119.54  YES NVRAM  up                    up
+US6J-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/0   152.181.233.154 YES NVRAM  up                    up
+
+US7N-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/0   152.164.207.246 YES NVRAM  up                    up
+
+US8E-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/1   68.139.25.78    YES NVRAM  up                    up
+
+US8K-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/0   68.139.145.82   YES NVRAM  up                    up
+US8W-mpls-router Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0/2   152.164.174.22  YES NVRAM  up                    up
+
+US95-mpls-router Interface              IP-Address      OK? Method Status                Protocol
