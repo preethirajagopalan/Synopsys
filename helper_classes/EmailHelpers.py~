@@ -1,0 +1,23 @@
+import smtplib
+from email.mime.text import MIMEText
+from email.MIMEMultipart import MIMEMultipart
+from email.MIMEBase import MIMEBase
+from email.MIMEText import MIMEText
+from email.Utils import COMMASPACE, formatdate
+from email import Encoders
+
+def send_mail(to, subject, text, fro='network-core@synopsys.com', server="mailhost.synopsys.com"):
+    """Sends an email with the given arguments."""
+    assert type(to)==list
+
+    msg = MIMEMultipart('alternative')
+    msg['From'] = fro
+    msg['To'] = COMMASPACE.join(to)
+    msg['Date'] = formatdate(localtime=True)
+    msg['Subject'] = subject
+
+    msg.attach( MIMEText(text) )
+
+    smtp = smtplib.SMTP(server)
+    smtp.sendmail(fro, to, msg.as_string())
+    smtp.quit()

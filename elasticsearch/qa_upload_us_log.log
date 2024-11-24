@@ -1,0 +1,49 @@
+send: 'ehlo network-script.internal.synopsys.com\r\n'
+reply: '250-mailhost.synopsys.com\r\n'
+reply: '250-PIPELINING\r\n'
+reply: '250-SIZE 36700160\r\n'
+reply: '250-VRFY\r\n'
+reply: '250-ETRN\r\n'
+reply: '250-STARTTLS\r\n'
+reply: '250-ENHANCEDSTATUSCODES\r\n'
+reply: '250-8BITMIME\r\n'
+reply: '250-DSN\r\n'
+reply: '250 SMTPUTF8\r\n'
+reply: retcode (250); Msg: mailhost.synopsys.com
+PIPELINING
+SIZE 36700160
+VRFY
+ETRN
+STARTTLS
+ENHANCEDSTATUSCODES
+8BITMIME
+DSN
+SMTPUTF8
+send: 'mail FROM:<preeraja@synopsys.com> size=567\r\n'
+reply: '250 2.1.0 Ok\r\n'
+reply: retcode (250); Msg: 2.1.0 Ok
+send: 'rcpt TO:<preeraja@synopsys.com>\r\n'
+reply: '250 2.1.5 Ok\r\n'
+reply: retcode (250); Msg: 2.1.5 Ok
+send: 'rcpt TO:<preeraja@synopsys>\r\n'
+reply: '450 4.1.2 <preeraja@synopsys>: Recipient address rejected: Domain not found\r\n'
+reply: retcode (450); Msg: 4.1.2 <preeraja@synopsys>: Recipient address rejected: Domain not found
+send: 'data\r\n'
+reply: '354 End data with <CR><LF>.<CR><LF>\r\n'
+reply: retcode (354); Msg: End data with <CR><LF>.<CR><LF>
+data: (354, 'End data with <CR><LF>.<CR><LF>')
+send: 'Content-Type: multipart/alternative;\r\n boundary="===============2536347685130418729=="\r\nMIME-Version: 1.0\r\nSubject: Error Report from Elastic Search\r\nFrom: preeraja@synopsys.com\r\nTo: preeraja@synopsys.com, preeraja@synopsys\r\n\r\n--===============2536347685130418729==\r\nContent-Type: text/plain; charset="us-ascii"\r\nMIME-Version: 1.0\r\nContent-Transfer-Encoding: 7bit\r\n\r\nConnection to US-Sql Database Failed (Interface)\r\nError: ProgrammingError(\'42S22\', "[42S22] [FreeTDS][SQL Server]Invalid column name \'Asset_type\'. (207) (SQLExecDirectW)")\r\n--===============2536347685130418729==--\r\n.\r\n'
+reply: '250 2.0.0 Ok: queued as 03CE2A007F\r\n'
+reply: retcode (250); Msg: 2.0.0 Ok: queued as 03CE2A007F
+data: (250, '2.0.0 Ok: queued as 03CE2A007F')
+send: 'quit\r\n'
+reply: '221 2.0.0 Bye\r\n'
+reply: retcode (221); Msg: 2.0.0 Bye
+mail settings success
+Connected to SMTP
+Sent E-Mail
+('42S22', "[42S22] [FreeTDS][SQL Server]Invalid column name 'Asset_type'. (207) (SQLExecDirectW)")
+Traceback (most recent call last):
+  File "/network/scripts/elasticsearch/qa_upload_us.py", line 87, in <module>
+    items = [dict(zip([key[0].lower() for key in cursor.description], row)) for row in result]
+NameError: name 'result' is not defined

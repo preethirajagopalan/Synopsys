@@ -1,0 +1,962 @@
+SUCCESS: us01-b
+{
+    "interface_errors": {
+        "status": 3, 
+        "message": "No existing MPLS router or failed connection. No existing VPN router or failed connection. Failed connection to core switch."
+    }, 
+    "vpn_ping_trace": {
+        "status": 3, 
+        "message": "No existing VPN router or failed connection."
+    }, 
+    "vpn_ping_hq": {
+        "status": 3, 
+        "message": "No existing VPN router or failed connection."
+    }, 
+    "@timestamp": "2017-09-06 13:52:31.965340", 
+    "site": "us01-b", 
+    "bgp_status": {
+        "status": 3, 
+        "message": "No existing MPLS router or failed connection. No existing VPN router or failed connection."
+    }, 
+    "vpn_ping_pe_ip": {
+        "status": 3, 
+        "message": "No existing VPN router or failed connection."
+    }, 
+    "vpn_internet_utilization": {
+        "status": 3, 
+        "message": "No existing VPN router or failed connection."
+    }, 
+    "mpls_wan_utilization": {
+        "status": 3, 
+        "message": "No existing MPLS router or failed connection."
+    }, 
+    "mpls_path": {
+        "status": 3, 
+        "message": "Failed connection to core switch."
+    }, 
+    "core_switch_ping": {
+        "status": 3, 
+        "message": "Failed connection to core switch."
+    }
+}
+
+SUCCESS: us01-a
+{
+    "interface_errors": {
+        "status": 3, 
+        "message": "No existing MPLS router or failed connection. No existing VPN router or failed connection. Failed connection to core switch."
+    }, 
+    "vpn_ping_trace": {
+        "status": 3, 
+        "message": "No existing VPN router or failed connection."
+    }, 
+    "vpn_ping_hq": {
+        "status": 3, 
+        "message": "No existing VPN router or failed connection."
+    }, 
+    "@timestamp": "2017-09-06 13:52:32.562152", 
+    "site": "us01-a", 
+    "bgp_status": {
+        "status": 3, 
+        "message": "No existing MPLS router or failed connection. No existing VPN router or failed connection."
+    }, 
+    "vpn_ping_pe_ip": {
+        "status": 3, 
+        "message": "No existing VPN router or failed connection."
+    }, 
+    "vpn_internet_utilization": {
+        "status": 3, 
+        "message": "No existing VPN router or failed connection."
+    }, 
+    "mpls_wan_utilization": {
+        "status": 3, 
+        "message": "No existing MPLS router or failed connection."
+    }, 
+    "mpls_path": {
+        "status": 3, 
+        "message": "Failed connection to core switch."
+    }, 
+    "core_switch_ping": {
+        "status": 3, 
+        "message": "Failed connection to core switch."
+    }
+}
+
+SUCCESS: us02
+{
+    "interface_errors": {
+        "status": 2, 
+        "interfaces": [
+            {
+                "status": 2, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "TW Telecom 63/KFFN/106928/TWCS", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 1, 
+                "num_total_drops": 0, 
+                "interface": "GigabitEthernet0/0/0", 
+                "router": "dc8-vpn-router", 
+                "message": "Non-zero error count(s).", 
+                "last_cleared": "5w6d"
+            }, 
+            {
+                "status": 2, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "dc8-vpn-router vlan3", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 47094, 
+                "interface": "GigabitEthernet0/0/1", 
+                "router": "dc8-vpn-router", 
+                "message": "Non-zero error count(s).", 
+                "last_cleared": "2w1d"
+            }, 
+            {
+                "status": 2, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "dc8-vpn-router vlan60", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 3922, 
+                "interface": "GigabitEthernet0/0/2", 
+                "router": "dc8-vpn-router", 
+                "message": "Non-zero error count(s).", 
+                "last_cleared": "2w1d"
+            }, 
+            {
+                "status": 2, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "dc2-c6500-ext", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 2190, 
+                "interface": "GigabitEthernet0/0/3", 
+                "router": "dc8-vpn-router", 
+                "message": "Non-zero error count(s).", 
+                "last_cleared": "2w1d"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "dc2-c6500-ext", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "Gi0/0/3", 
+                "router": "dc8-vpn-router", 
+                "message": "No found errors.", 
+                "last_cleared": "00:00:01"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "dc8-wan-router", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "GigabitEthernet0/0/4", 
+                "router": "dc8-vpn-router", 
+                "message": "No found errors.", 
+                "last_cleared": "7w5d"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "rvbd_bypass_dc8-wan-router", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "GigabitEthernet0/0/5", 
+                "router": "dc8-vpn-router", 
+                "message": "No found errors.", 
+                "last_cleared": "7w5d"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "last_cleared": "never", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "GigabitEthernet0", 
+                "router": "dc8-vpn-router", 
+                "message": "No found errors."
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "last_cleared": "never", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "Loopback0", 
+                "router": "dc8-vpn-router", 
+                "message": "No found errors."
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "last_cleared": "never", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "Loopback1", 
+                "router": "dc8-vpn-router", 
+                "message": "No found errors."
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "PFR auto-tunnel for VRF default", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "Tunnel0", 
+                "router": "dc8-vpn-router", 
+                "message": "No found errors.", 
+                "last_cleared": "29w4d"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "Pim Register Tunnel (Encap) for RP 10.12.254.1", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "Tunnel1", 
+                "router": "dc8-vpn-router", 
+                "message": "No found errors.", 
+                "last_cleared": "29w4d"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "Pim Register Tunnel (Encap) for RP 10.144.193.34", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "Tunnel2", 
+                "router": "dc8-vpn-router", 
+                "message": "No found errors.", 
+                "last_cleared": "4d11h"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "Pim Register Tunnel (Encap) for RP 10.225.0.230", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "Tunnel4", 
+                "router": "dc8-vpn-router", 
+                "message": "No found errors.", 
+                "last_cleared": "3w6d"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "DC8-Acceso GRE tunnel", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "Tunnel111", 
+                "router": "dc8-vpn-router", 
+                "message": "No found errors.", 
+                "last_cleared": "29w4d"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "\"DMVPN Cloud\"", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "Tunnel1000", 
+                "router": "dc8-vpn-router", 
+                "message": "No found errors.", 
+                "last_cleared": "29w4d"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "dc2-mdf-timeserver1 10.228.0.2", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "GigabitEthernet1/11", 
+                "router": "dc2-c6807-core", 
+                "message": "No found errors.", 
+                "last_cleared": "5w4d"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "dc2-mdf-timeserver2 10.228.0.6", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "GigabitEthernet1/12", 
+                "router": "dc2-c6807-core", 
+                "message": "No found errors.", 
+                "last_cleared": "5w4d"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "dc2-mdf-dns 10.228.0.1", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "GigabitEthernet1/21", 
+                "router": "dc2-c6807-core", 
+                "message": "No found errors.", 
+                "last_cleared": "5w4d"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "dc2-mdf-dnzproxy 10.228.0.6", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "GigabitEthernet1/22", 
+                "router": "dc2-c6807-core", 
+                "message": "No found errors.", 
+                "last_cleared": "5w4d"
+            }, 
+            {
+                "status": 2, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "us02 p2p to us03", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 39744687, 
+                "interface": "GigabitEthernet1/44", 
+                "router": "dc2-c6807-core", 
+                "message": "Non-zero error count(s).", 
+                "last_cleared": "6d20h"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "dc8-wan-router", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "GigabitEthernet1/47", 
+                "router": "dc2-c6807-core", 
+                "message": "No found errors.", 
+                "last_cleared": "1y7w"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "uplink to bldg2-c6880-1-link1", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "TenGigabitEthernet2/9", 
+                "router": "dc2-c6807-core", 
+                "message": "No found errors.", 
+                "last_cleared": "1y7w"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "bldg1-c6880-1_uplink2", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "TenGigabitEthernet2/10", 
+                "router": "dc2-c6807-core", 
+                "message": "No found errors.", 
+                "last_cleared": "1y7w"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "bldgA-mlx-1", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "TenGigabitEthernet5/7", 
+                "router": "dc2-c6807-core", 
+                "message": "No found errors.", 
+                "last_cleared": "1y7w"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "dc2-n7010-1", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "TenGigabitEthernet5/8", 
+                "router": "dc2-c6807-core", 
+                "message": "No found errors.", 
+                "last_cleared": "1y7w"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "uplink to bldg2-c6880-1-link2", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "TenGigabitEthernet5/9", 
+                "router": "dc2-c6807-core", 
+                "message": "No found errors.", 
+                "last_cleared": "1y7w"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "bldg1-c6880-1_uplink1", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "TenGigabitEthernet5/10", 
+                "router": "dc2-c6807-core", 
+                "message": "No found errors.", 
+                "last_cleared": "1y7w"
+            }, 
+            {
+                "status": 2, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "savvis-n7018-2", 
+                "num_collisions": 0, 
+                "num_CRC": 6, 
+                "num_in_errors": 6, 
+                "num_total_drops": 0, 
+                "interface": "TenGigabitEthernet5/11", 
+                "router": "dc2-c6807-core", 
+                "message": "Non-zero error count(s).", 
+                "last_cleared": "2w1d"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "dc8-c6807-core", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "TenGigabitEthernet5/15", 
+                "router": "dc2-c6807-core", 
+                "message": "No found errors.", 
+                "last_cleared": "1y7w"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "dc8-n7010-1", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "TenGigabitEthernet5/16", 
+                "router": "dc2-c6807-core", 
+                "message": "No found errors.", 
+                "last_cleared": "1y7w"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "bldgB-mlx-1", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "TenGigabitEthernet6/7", 
+                "router": "dc2-c6807-core", 
+                "message": "No found errors.", 
+                "last_cleared": "1y7w"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "dc2-n7010-2", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "TenGigabitEthernet6/8", 
+                "router": "dc2-c6807-core", 
+                "message": "No found errors.", 
+                "last_cleared": "1y7w"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "savvis-n7018-1", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "TenGigabitEthernet6/11", 
+                "router": "dc2-c6807-core", 
+                "message": "No found errors.", 
+                "last_cleared": "7w5d"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "dc2-wan-router", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "TenGigabitEthernet6/12", 
+                "router": "dc2-c6807-core", 
+                "message": "No found errors.", 
+                "last_cleared": "1y7w"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "dc8-n7010-2", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "TenGigabitEthernet6/16", 
+                "router": "dc2-c6807-core", 
+                "message": "No found errors.", 
+                "last_cleared": "1y7w"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "bldg6-c3560-2", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "TenGigabitEthernet6/19", 
+                "router": "dc2-c6807-core", 
+                "message": "No found errors.", 
+                "last_cleared": "1y7w"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "Loopback0", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "Loopback0", 
+                "router": "dc2-c6807-core", 
+                "message": "No found errors.", 
+                "last_cleared": "1y7w"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "Pim Register Tunnel (Encap) for RP 10.12.254.1", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "Tunnel0", 
+                "router": "dc2-c6807-core", 
+                "message": "No found errors.", 
+                "last_cleared": "1y7w"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "Pim Register Tunnel (Encap) for RP 10.144.193.34", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "Tunnel1", 
+                "router": "dc2-c6807-core", 
+                "message": "No found errors.", 
+                "last_cleared": "4d11h"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "Pim Register Tunnel (Encap) for RP 10.225.0.230", 
+                "num_collisions": 0, 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "Tunnel3", 
+                "router": "dc2-c6807-core", 
+                "message": "No found errors.", 
+                "last_cleared": "3w6d"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "last_cleared": "1y7w", 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "Vlan100", 
+                "router": "dc2-c6807-core", 
+                "message": "No found errors."
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "employee-wireless-1", 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "Vlan128", 
+                "router": "dc2-c6807-core", 
+                "message": "No found errors.", 
+                "last_cleared": "1y7w"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "employee-wireless-2", 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "Vlan136", 
+                "router": "dc2-c6807-core", 
+                "message": "No found errors.", 
+                "last_cleared": "1y7w"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "mobile-wireless-1", 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "Vlan152", 
+                "router": "dc2-c6807-core", 
+                "message": "No found errors.", 
+                "last_cleared": "1y7w"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "mobile-wireless-2", 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "Vlan160", 
+                "router": "dc2-c6807-core", 
+                "message": "No found errors.", 
+                "last_cleared": "1y7w"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "internet-wireless-1", 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "Vlan168", 
+                "router": "dc2-c6807-core", 
+                "message": "No found errors.", 
+                "last_cleared": "1y7w"
+            }, 
+            {
+                "status": 0, 
+                "num_resets": 0, 
+                "num_out_errors": 0, 
+                "description": "internet-wireless-2", 
+                "num_CRC": 0, 
+                "num_in_errors": 0, 
+                "num_total_drops": 0, 
+                "interface": "Vlan176", 
+                "router": "dc2-c6807-core", 
+                "message": "No found errors.", 
+                "last_cleared": "1y7w"
+            }
+        ], 
+        "message": "At least one interface on device(s) dc2-c6807-core, dc8-vpn-router had errors."
+    }, 
+    "vpn_ping_trace": {
+        "status": 2, 
+        "router": "dc8-vpn-router", 
+        "message": "At least one set of pings had unacceptable percent success or latency.", 
+        "pings": [
+            {
+                "status": 0, 
+                "latency": 125, 
+                "dest": "jp01 (198.182.50.1)", 
+                "percent": 100, 
+                "source": "dc8-vpn-router", 
+                "comp_latency": 125.582, 
+                "message": "All ping numbers are acceptable.", 
+                "hist_latency": 125.189, 
+                "trace_output": "  1 206.169.179.81 [AS 3356] 3 msec 2 msec 2 msec\n  2 67.16.141.58 [AS 3356] 7 msec 6 msec 7 msec\n  3 124.215.192.113 [AS 3356] 8 msec 18 msec 18 msec\n  4 124.211.34.133 [AS 3356] 6 msec\n    111.87.3.5 [AS 3356] 7 msec\n    124.211.34.125 [AS 3356] 6 msec\n  5 203.181.100.205 [AS 3356] 105 msec\n    203.181.100.209 [AS 3356] 115 msec\n    203.181.100.1 [AS 3356] 117 msec\n  6 59.128.7.205 [AS 3356] 118 msec\n    59.128.7.141 [AS 3356] 114 msec 108 msec\n  7 111.108.4.122 [AS 3356] 101 msec 103 msec 106 msec\n  8 198.182.50.1 [AS 3356] !A  *  !A "
+            }, 
+            {
+                "status": 0, 
+                "latency": 92, 
+                "dest": "ca06 (69.90.0.217)", 
+                "percent": 100, 
+                "source": "dc8-vpn-router", 
+                "comp_latency": 97.248, 
+                "message": "All ping numbers are acceptable.", 
+                "hist_latency": 92.952, 
+                "trace_output": "  1 198.182.41.60 [AS 3356] 1 msec\n    198.182.56.123 [AS 3356] 1 msec\n    198.182.41.60 [AS 3356] 0 msec\n  2  *  *  * \n  3 4.69.151.242 [AS 3356] 75 msec 76 msec 77 msec\n  4 4.28.138.82 [AS 3356] 76 msec 76 msec 75 msec\n  5  *  *  * \n  6 107.6.59.174 [AS 3356] 82 msec 83 msec 84 msec\n  7 69.90.0.146 [AS 3356] 91 msec 163 msec 92 msec\n  8 69.90.0.217 [AS 3356] !A  *  !A "
+            }, 
+            {
+                "status": 0, 
+                "latency": 161, 
+                "dest": "mdc (198.182.39.5)", 
+                "percent": 100, 
+                "source": "dc8-vpn-router", 
+                "comp_latency": 162.639, 
+                "message": "All ping numbers are acceptable.", 
+                "hist_latency": 161.317, 
+                "trace_output": "  1 198.182.41.60 [AS 3356] 1 msec\n    198.182.56.27 [AS 3356] 0 msec\n    198.182.56.123 [AS 3356] 1 msec\n  2  *  *  * \n  3 4.69.166.13 [AS 3356] 148 msec\n    4.69.166.1 [AS 3356] 139 msec 138 msec\n  4 212.113.14.214 [AS 3356] 148 msec 148 msec 149 msec\n  5 217.110.42.177 [AS 3356] 163 msec 163 msec 202 msec\n  6 217.110.42.178 [AS 3356] 162 msec 161 msec 161 msec\n  7 198.182.39.5 [AS 3356] 161 msec *  161 msec"
+            }, 
+            {
+                "status": 0, 
+                "latency": 1, 
+                "dest": "us02 (198.182.41.251)", 
+                "percent": 100, 
+                "source": "dc8-vpn-router", 
+                "comp_latency": 1.265, 
+                "message": "All ping numbers are acceptable.", 
+                "hist_latency": 1.015, 
+                "trace_output": "  1 198.182.41.251 [AS 3356] 0 msec *  2 msec"
+            }, 
+            {
+                "status": 0, 
+                "latency": 244, 
+                "dest": "indc (198.182.52.30)", 
+                "percent": 100, 
+                "source": "dc8-vpn-router", 
+                "comp_latency": 247.242, 
+                "message": "All ping numbers are acceptable.", 
+                "hist_latency": 245.339, 
+                "trace_output": "  1 198.182.41.60 [AS 3356] 0 msec\n    198.182.56.27 [AS 3356] 1 msec\n    198.182.56.123 [AS 3356] 0 msec\n  2  *  *  * \n  3  *  *  * \n  4 4.68.63.214 [AS 3356] 4 msec 4 msec 4 msec\n  5 63.243.205.1 [AS 3356] [MPLS: Label 781683 Exp 1] 177 msec *  177 msec\n  6 63.243.205.75 [AS 3356] [MPLS: Label 478935 Exp 1] 177 msec 177 msec\n    63.243.205.13 [AS 3356] [MPLS: Label 478935 Exp 1] 177 msec\n  7 209.58.86.143 [AS 3356] [MPLS: Label 41820 Exp 1] 113 msec 107 msec 106 msec\n  8 120.29.217.66 [AS 3356] [MPLS: Label 489816 Exp 1] 179 msec 176 msec 179 msec\n  9 180.87.15.40 [AS 3356] 182 msec 178 msec 179 msec\n 10 180.87.15.6 [AS 3356] 244 msec 239 msec 238 msec\n 11  *  *  * \n 12 121.244.34.2 [AS 3356] 241 msec *  239 msec"
+            }, 
+            {
+                "status": 2, 
+                "latency": 374, 
+                "dest": "cn42 (211.148.29.225)", 
+                "percent": 86, 
+                "source": "dc8-vpn-router", 
+                "message": "Ping success less than 100%.", 
+                "trace_output": "  1 198.182.56.27 [AS 3356] 1 msec\n    198.182.41.28 [AS 3356] 1 msec\n    198.182.56.27 [AS 3356] 0 msec\n  2  *  *  * \n  3  *  *  * \n  4 4.68.62.110 [AS 3356] 5 msec 5 msec 5 msec\n  5  *  *  * \n  6 152.179.48.150 [AS 3356] 55 msec 56 msec 56 msec\n  7 202.97.50.77 [AS 3356] 58 msec 55 msec 56 msec\n  8 202.97.51.237 [AS 3356] 355 msec 361 msec 390 msec\n  9 202.97.90.30 [AS 3356] 379 msec 383 msec 384 msec\n 10 202.97.57.18 [AS 3356] 337 msec 336 msec * \n 11 101.95.120.73 [AS 3356] 288 msec 291 msec 287 msec\n 12 61.152.81.138 [AS 3356] 266 msec 272 msec 276 msec\n 13 101.95.118.26 [AS 3356] 251 msec 253 msec 259 msec\n 14 211.148.17.70 [AS 3356] 269 msec\n    211.148.17.74 [AS 3356] 344 msec 349 msec\n 15  *  *  * \n 16  *  *  * \n 17  *  *  * \n 18  *  *  * \n 19  *  *  * \n 20  *  *  * \n 21  *  *  * \n 22  *  *  * \n 23  *  *  * \n 24  *  *  * \n 25  *  *  * \n 26  *  *  * \n 27  *  *  * \n 28  *  *  * \n 29  *  *  * \n 30  *  *  * "
+            }
+        ]
+    }, 
+    "vpn_ping_hq": {
+        "status": 0, 
+        "latency": 1, 
+        "dest": "198.182.41.251", 
+        "percent": 100, 
+        "source": "dc8-vpn-router", 
+        "comp_latency": 1.265, 
+        "message": "All ping numbers are acceptable.", 
+        "hist_latency": 1.015
+    }, 
+    "@timestamp": "2017-09-06 13:52:43.783752", 
+    "site": "us02", 
+    "bgp_status": {
+        "status": 0, 
+        "routers": [
+            {
+                "neighbors": [
+                    {
+                        "status": 0, 
+                        "neighbor_ip": "10.227.5.255", 
+                        "message": "Sufficient state (at least 460).", 
+                        "state_pfxrcd": "468"
+                    }, 
+                    {
+                        "status": 0, 
+                        "neighbor_ip": "10.227.6.255", 
+                        "message": "Sufficient state (at least 460).", 
+                        "state_pfxrcd": "477"
+                    }
+                ], 
+                "router": "dc8-vpn-router", 
+                "message": "VPN hubs are all up and have sufficient states.", 
+                "status": 0
+            }
+        ], 
+        "message": "Interfaces for all device(s) are up and have sufficient state."
+    }, 
+    "vpn_ping_pe_ip": {
+        "status": 0, 
+        "latency": 3, 
+        "dest": "206.169.179.81", 
+        "percent": 100, 
+        "source": "dc8-vpn-router", 
+        "comp_latency": 3.691, 
+        "message": "All ping numbers are acceptable.", 
+        "hist_latency": 3.239
+    }, 
+    "vpn_internet_utilization": {
+        "status": 0, 
+        "in_utilization": 5.787, 
+        "out_utilization": 0.101, 
+        "exit_interface": "GigabitEthernet0/0/0", 
+        "router": "dc8-vpn-router", 
+        "message": "Below maximum utilization of 80%."
+    }, 
+    "mpls_wan_utilization": {
+        "status": 3, 
+        "message": "No existing MPLS router or failed connection."
+    }, 
+    "mpls_path": {
+        "status": 3, 
+        "message": "No existing MLPS router or failed connection."
+    }, 
+    "core_switch_ping": {
+        "status": 2, 
+        "router": "dc2-c6807-core", 
+        "message": "At least one set of pings had unacceptable percent success or latency.", 
+        "pings": [
+            {
+                "status": 2, 
+                "latency": 99, 
+                "dest": "jp01-vpn-router", 
+                "percent": 100, 
+                "source": "dc2-c6807-core", 
+                "comp_latency": 98.848, 
+                "message": "Real-time latency is more than one std. above historical median.", 
+                "hist_latency": 96.476
+            }, 
+            {
+                "status": 2, 
+                "latency": 157, 
+                "dest": "mdc-vpn-router", 
+                "percent": 100, 
+                "source": "dc2-c6807-core", 
+                "comp_latency": 155.311, 
+                "message": "Real-time latency is more than one std. above historical median.", 
+                "hist_latency": 153.762
+            }, 
+            {
+                "status": 0, 
+                "latency": 209, 
+                "dest": "indc-vpn-router", 
+                "percent": 100, 
+                "source": "dc2-c6807-core", 
+                "comp_latency": 221.656, 
+                "message": "All ping numbers are acceptable.", 
+                "hist_latency": 212.128
+            }, 
+            {
+                "status": 0, 
+                "latency": 1, 
+                "dest": "us02-ipsla-router", 
+                "percent": 100, 
+                "source": "dc2-c6807-core", 
+                "comp_latency": 1.701, 
+                "message": "All ping numbers are acceptable.", 
+                "hist_latency": 1.085
+            }, 
+            {
+                "status": 0, 
+                "latency": 246, 
+                "dest": "am04-vpn-router-1", 
+                "percent": 100, 
+                "source": "dc2-c6807-core", 
+                "message": "All ping numbers are acceptable."
+            }, 
+            {
+                "status": 0, 
+                "latency": 128, 
+                "dest": "cn42-vpn-router", 
+                "percent": 100, 
+                "source": "dc2-c6807-core", 
+                "message": "All ping numbers are acceptable."
+            }, 
+            {
+                "status": 2, 
+                "latency": 79, 
+                "dest": "ca06-vpn-router", 
+                "percent": 100, 
+                "source": "dc2-c6807-core", 
+                "comp_latency": 77.534, 
+                "message": "Real-time latency is more than one std. above historical median.", 
+                "hist_latency": 74.279
+            }
+        ]
+    }
+}
+

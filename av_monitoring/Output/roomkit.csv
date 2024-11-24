@@ -1,0 +1,3 @@
+Name,ip,@timestamp,connectionStatus,mac,tag,serial,upgradeChannel,errorCodes,type,Region,SiteCode,software
+US03-Oberon-HDVC,10.4.25.90,2022-01-11 23:33:02.694736,connected_with_issues,74:88:BB:A4:37:7D,0,WZS2346E00D,Stable,audiopairingnoise,roomkit,NA,US03,RoomOS 10.11.1.1 28d904d97dc
+USSV-Karaoke-HDVC,10.204.41.44,2022-01-11 23:33:02.694736,connected,08:EC:F5:4F:F0:AD,1,FOC2321P05B,Stable,,roomkit,HQ,USSV,RoomOS 10.11.1.1 28d904d97dc

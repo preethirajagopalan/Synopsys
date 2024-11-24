@@ -1,0 +1,6 @@
+Mail settings for lansweeper error report were set
+Error('08S01', '[08S01] [unixODBC][FreeTDS][SQL Server]Unable to connect: Adaptive Server is unavailable or does not exist (20009) (SQLDriverConnect)')
+Traceback (most recent call last):
+  File "/network/scripts/elasticsearch/ls_data.py", line 60, in <module>
+    result_ls = cursor_ls.fetchall()
+NameError: name 'cursor_ls' is not defined
