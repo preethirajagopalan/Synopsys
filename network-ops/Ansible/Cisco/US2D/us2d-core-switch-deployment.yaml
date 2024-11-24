@@ -1,0 +1,666 @@
+---
+- name: New Switch Config
+  hosts: test-device
+  gather_facts: false
+  connection: network-cli
+
+  tasks:
+
+    - name: Adding New Hostname
+      ios_config:
+        lines:
+          - hostname "{{ inventory_hostname }}"
+
+    - name: Add MOTD
+      ios_banner:
+        banner: motd
+        text: |
+           NOTICE TO USERS
+           This is an official computer system and is the property of Synopsys, Inc.
+           It is for authorized users only.  Unauthorized users are prohibited.
+           Users (authorized or unauthorized) have no explicit
+           or implicit expectation of privacy.  Any or all uses of this system
+           may be subject to one or more of the following actions:  interception,
+           monitoring, recording, auditing, inspection and disclosing to security
+           personnel and law enforcement personnel, as well as authorized
+           officials of other agencies, both domestic and foreign.  By using this
+           system, the user consents to these actions.  Unauthorized or improper
+           use of this system may result in administrative disciplinary action
+           and civil and criminal penalties.  By accessing this system you
+           indicate your awareness of and consent to these terms and conditions
+           of use.  Discontinue access immediately if you do not agree to the
+           conditions stated in this notice.
+           **Predictable Success**
+
+    - name: Adding Domain Configs
+      ios_config:
+        lines:
+          - ip domain-name internal.synopsys.com
+          - ip name-server 10.228.0.1
+          - ip name-server 10.228.0.2
+      register: print_output
+    - debug: var=print_output
+
+
+    - name: Adding NTP Server
+      ios_config:
+        lines:
+          - ntp server 10.228.0.1
+          - ntp server 10.228.0.2
+          - ntp server 10.228.0.3
+          - ntp server 10.228.0.4
+          - ntp server 10.228.0.5
+        match: exact
+      register: print_output
+    - debug: var=print_output
+
+    - name: Adding Clock as Per Location 
+      ios_config:
+        lines:
+          - clock timezone PST -8 0
+          - clock summer-time PST recurring
+        match: exact
+      register: print_output
+    - debug: var=print_output
+
+    - name: Resolve NTP Information Disclosure Vulnerability
+      ios_config:
+        lines:
+          - permit 10.228.0.1
+          - permit 10.228.0.2
+          - permit 10.228.0.3
+          - permit 10.228.0.4
+          - permit 10.228.0.5
+        parents: ip access-list standard NTP_ACCESS
+        before: no ip access-list standard NTP_ACCESS
+        match: exact
+      register: print_output
+    - debug: var=print_output
+
+    - name: Resolve NTP Information Disclosure Vulnerability
+      ios_config:
+        lines:
+          - ntp access-group peer NTP_ACCESS
+      register: print_output
+    - debug: var=print_output
+
+    - name: Enable AAA
+      ios_config:
+        lines:
+          - aaa new-model
+
+    - name: Adding AAA servers
+      ios_config:
+        lines:
+          - server name us01cppm01
+          - server name us01cppm02
+          - server name mdccppm01
+        parents: aaa group server tacacs+ Acs-Box
+        match: exact
+
+    - name: Adding AAA configs
+      ios_config:
+        lines:
+          - aaa authentication login Telnet_Access group Acs-Box line
+          - aaa authentication login Console_Access line
+          - aaa authorization config-commands
+          - aaa authorization exec Authorize_Access group Acs-Box none
+          - aaa authorization commands 15 Authorize_Access group Acs-Box none
+          - aaa accounting commands 1 default start-stop group Acs-Box
+          - aaa accounting commands 15 default start-stop group Acs-Box
+          - ip tacacs source Loopback 0
+      register: print_output
+    - debug: var=print_output
+
+    - name: Adding TACACS Server authentication  Server us01cppm01
+      ios_config:
+        lines:
+          - address ipv4 us01cppm01
+          - key 0 cppmcisco
+        parents: tacacs server us01cppm01
+      register: print_output
+    - debug: var=print_output
+
+    - name: Adding TACACS Server authentication  Server us01cppm02
+      ios_config:
+        lines:
+          - address ipv4 us01cppm02
+          - key 0 cppmcisco
+        parents: tacacs server us01cppm02
+      register: print_output
+    - debug: var=print_output
+
+    - name: Adding TACACS Server authentication  Server mdccppm01
+      ios_config:
+        lines:
+          - address ipv4 mdccppm01
+          - key 0 cppmcisco
+        parents: tacacs server mdccppm01
+      register: print_output
+    - debug: var=print_output
+
+    - name: Adding TACACS to line vty 0 4
+      ios_config:
+        lines:
+          - authorization commands 15 Authorize_Access
+          - authorization exec Authorize_Access
+          - login authentication Telnet_Access
+        parents: line vty 0 4
+        match: exact
+      register: print_output
+    - debug: var=print_output
+
+    - name: Enabling Rapid Spanning-tree and VTP
+      ios_config:
+        lines:
+          - spanning-tree mode rapid-pvst
+          - vtp mode transparent
+          - vtp version 3
+      register: print_output
+    - debug: var=print_output
+    
+# Define the DC VRF if the Core Switch is Serving DC infrastructure 
+
+#    - name: Defining VRF for DC
+#      ios_config:
+#        lines:
+#          - ip vrf DC 
+
+# Add the Radius Servers According to the Regional Sites 
+
+    - name: Adding Radius Server List
+      ios_config:
+        lines:
+          - client 10.15.72.1 server-key cppmcisco
+          - client 10.200.17.69 server-key cppmcisco
+          - port 3799
+          - auth-type all
+        parents: aaa server radius dynamic-author
+        match: exact
+
+    - name: Adding us01cppm02 Server List
+      ios_config:
+        lines:
+          - address ipv4 10.15.72.1 auth-port 1812 acct-port 1813
+          - automate-tester username dummy probe-on
+          - key cppmcisco
+        parents: radius server us01cppm02
+        match: exact
+
+    - name: Adding us01cppm01 Server List
+      ios_config:
+        lines:
+          - address ipv4 10.200.17.69 auth-port 1812 acct-port 1813
+          - automate-tester username dummy probe-on
+          - key cppmcisco
+        parents: radius server us01cppm01
+        match: exact
+
+# For Radius Source Interface Add Loopback0 for Core Switches and VLAN8 for L2 Switches 
+
+    - name: Adding CPPM Servers to the Group List
+      ios_config:
+        lines:
+          - server name us01cppm02
+          - server name us01cppm01
+          - ip radius source-interface loopback0
+        parents: aaa group server radius clearpass
+        match : exact
+        
+# Define VLANs as per the Site Requirement , Below VLANs are the Standard ones
+
+    - name: Create vlan Employee-Wifi 
+      ios_vlan:
+        vlan_id: 3
+        name: wireless-employee
+        state: present
+
+    - name: Create vlan Internet-Wifi
+      ios_vlan:
+        vlan_id: 4
+        name: wireless-internet
+        state: present
+
+    - name: Create vlan LAB-vlan
+      ios_vlan:
+        vlan_id: 6
+        name: US2D-LAB
+        state: present
+
+    - name: Create vlan Server-vlan
+      ios_vlan:
+        vlan_id: 7
+        name: Server-vlan
+        state: present
+
+    - name: Create vlan Data_vlan
+      ios_vlan:
+        vlan_id: 8
+        name: Data_vlan
+        state: present
+
+    - name: Create vlan IP-Console
+      ios_vlan:
+        vlan_id: 888
+        name: IP-Console
+        state: present
+
+    - name: Create vlan Voice-vlan
+      ios_vlan:
+        vlan_id: 100
+        name: Voice-vlan
+        state: present
+
+    - name: Create vlan AV-vlan
+      ios_vlan:
+        vlan_id: 3000
+        name: AV-vlan
+        state: present
+
+    - name: Create vlan Fac-Util-vlan
+      ios_vlan:
+        vlan_id: 3001
+        name: Fac-Util-vlan
+        state: present
+
+    - name: Create vlan LAB-limited-vlan
+      ios_vlan:
+        vlan_id: 3002
+        name: LAB-limited-vlan
+        state: present
+
+# Configuring Interfaces for Data and Voice Vlan 
+
+    - name: Interface Configuration for Module-1
+      ios_config:
+        lines:
+          - description NAC-PORT
+          - switchport
+          - switchport mode access
+          - switchport access vlan 8
+          - switchport voice vlan 100
+        parents: interface range GigabitEthernet1/0/5-24
+      register: print_output
+    - debug: var=print_output
+
+    - name: Interface Configuration for Module-2
+      ios_config:
+        lines:
+          - description NAC-PORT
+          - switchport
+          - switchport mode access
+          - switchport access vlan 8
+          - switchport voice vlan 100
+        parents: interface range GigabitEthernet2/0/5-45
+      register: print_output
+    - debug: var=print_output
+
+    - name: Interface Configuration for Module-5
+      ios_config:
+        lines:
+          - description NAC-PORT
+          - switchport
+          - switchport mode access
+          - switchport access vlan 8
+          - switchport voice vlan 100
+        parents: interface range GigabitEthernet5/0/5-48
+      register: print_output
+    - debug: var=print_output
+
+    - name: Adding Global NAC Configuration
+      ios_config:
+        lines:
+          - dot1x system-auth-control
+          - aaa authorization network default group clearpass
+          - aaa authentication dot1x default group clearpass
+          - aaa accounting dot1x default start-stop group clearpass
+          - radius-server dead-criteria time 10 tries 3
+          - radius-server deadtime 101
+          - radius-server timeout 51
+          - radius-server retransmit 3
+      register: print_output
+    - debug: var=print_output
+
+    - name: Interface Configuration for Module-1
+      ios_config:
+        lines:
+          - authentication event fail action next-method
+          - authentication event server alive action reinitialize
+          - authentication host-mode multi-auth
+          - authentication order dot1x mab
+          - authentication priority dot1x mab
+          - authentication port-control auto
+          - authentication violation restrict
+          - mab
+          - snmp trap mac-notification change added
+          - snmp trap mac-notification change removed
+          - dot1x pae authenticator
+          - dot1x timeout tx-period 5
+        parents: interface range GigabitEthernet1/0/5-24
+      register: print_output
+    - debug: var=print_output
+
+    - name: Interface Configuration for Module-2
+      ios_config:
+        lines:
+          - authentication event fail action next-method
+          - authentication event server alive action reinitialize
+          - authentication host-mode multi-auth
+          - authentication order dot1x mab
+          - authentication priority dot1x mab
+          - authentication port-control auto
+          - authentication violation restrict
+          - mab
+          - snmp trap mac-notification change added
+          - snmp trap mac-notification change removed
+          - dot1x pae authenticator
+          - dot1x timeout tx-period 5
+        parents: interface range GigabitEthernet2/0/5-45
+      register: print_output
+    - debug: var=print_output
+
+    - name: Interface Configuration for Module-5
+      ios_config:
+        lines:
+          - authentication event fail action next-method
+          - authentication event server alive action reinitialize
+          - authentication host-mode multi-auth
+          - authentication order dot1x mab
+          - authentication priority dot1x mab
+          - authentication port-control auto
+          - authentication violation restrict
+          - mab
+          - snmp trap mac-notification change added
+          - snmp trap mac-notification change removed
+          - dot1x pae authenticator
+          - dot1x timeout tx-period 5
+        parents: interface range GigabitEthernet5/0/5-48
+      register: print_output
+    - debug: var=print_output
+
+
+# Adding Security Settings for Switches 
+
+    - name: Disable smart install
+      ios_config:
+        lines:
+          - no vstack
+      ignore_errors: yes
+      register: print_output
+    - debug: var=print_output
+
+    - name: Enable Service Password Encryption
+      ios_config:
+        lines:
+          - service password-encryption 
+      ignore_errors: yes
+      register: print_output
+    - debug: var=print_output
+
+    - name: Disable SSHv1
+      ios_config:
+        lines:
+          - ip ssh version 2
+      ignore_errors: yes
+      register: print_output
+    - debug: var=print_output
+
+    - name: Disable http/https
+      ios_config:
+        lines:
+          - no ip http server
+          - no ip http secure-server
+          - no ip http authentication local 
+      ignore_errors: yes
+      register: print_output
+    - debug: var=print_output
+
+    - name: Disable Telnet
+      ios_config:
+        lines:
+          - transport input ssh
+        parents: line vty 0 4
+      register: print_output
+    - debug: var=print_output
+      ignore_errors: yes
+      
+    - name: Disable Telnet
+      ios_config:
+        lines:
+          - transport input ssh
+        parents: line vty 5 15
+      register: print_output
+    - debug: var=print_output
+      ignore_errors: yes
+
+    - name: Adding new logging server
+      ios_config:
+        lines:
+          - logging host 10.200.17.66
+          - logging buffered 100000
+          - logging facility local0
+          - logging trap debugging
+          - logging source-interface Loopback0
+          
+    - name: Adding Service Timestamps for Debug and Logs
+      ios_config:
+        lines:
+          - service timestamps debug datetime localtime show-timezone
+          - service timestamps log datetime localtime show-timezone
+
+    - name: Adding Config Archive logging
+      ios_config:
+        lines:
+          - logging enable
+          - logging size 200
+          - notify syslog contenttype plaintext
+          - hidekeys
+        parents:
+          - archive
+          - log config
+
+# Please Change the IP addresses for the L3 Interfaces According to the Site Deployment 
+
+    - name: Configuring Core Switch Loopback Interface
+      ios_config:
+        lines:
+          - description us2d-core-switch-lo0
+          - ip address 10.16.225.249 255.255.255.255
+        parents: interface loopback0
+      register: print_output
+    - debug: var=print_output
+
+    - name: Configuring L3 between Core and MPLS Router
+      ios_config:
+        lines:
+          - description us2d-mpls-router
+          - no switchport
+          - ip address 10.16.225.33 255.255.255.240  
+          - ip pim sparse-mode 
+          - ip ospf network point-to-point
+          - no shut
+        parents: interface GigabitEthernet1/0/1
+      register: print_output
+    - debug: var=print_output
+
+    - name: Configuring L3 between Core and VPN Router
+      ios_config:
+        lines:
+          - description us2d-vpn-router
+          - no switchport
+          - ip address 10.16.225.17 255.255.255.240 
+          - ip pim sparse-mode 
+          - ip ospf network point-to-point
+          - no shut
+        parents: interface GigabitEthernet2/0/1
+      register: print_output
+    - debug: var=print_output
+
+# Change the Helper Address According to Regional DHCP Servers
+
+
+    - name: Configuring L3-Vlan3 for Wireless-Employee
+      ios_config:
+        lines:
+          - description Wireless-Employee
+          - ip address 10.16.227.254 255.255.255.0 
+          - ip pim sparse-mode
+          - ip helper-address 10.16.56.18   
+          - ip helper-address 10.15.153.94  
+          - no shut
+        parents: interface vlan 3
+
+    - name: Configuring L3-Vlan4 for Wireless-Internet
+      ios_config:
+        lines:
+          - description Employee-Wireless
+          - ip address 10.16.228.254 255.255.255.0 
+          - ip pim sparse-mode
+          - ip helper-address 10.16.56.18   
+          - ip helper-address 10.15.153.94  
+          - no shut
+        parents: interface vlan 4
+      register: print_output
+    - debug: var=print_output
+
+    - name: Configuring L3-Vlan6 for LAB Network
+      ios_config:
+        lines:
+          - description US2D-LAB
+          - ip address 10.16.234.254 255.255.255.0 
+#          - ip helper-address 10.16.56.18   
+#          - ip helper-address 10.15.153.94  
+          - no shut
+        parents: interface vlan 6
+
+    - name: Configuring L3-Vlan7 for Server-vlan
+      ios_config:
+        lines:
+          - description Server-vlan
+          - vrf forwarding DC
+          - ip address 10.16.230.254 255.255.255.0 
+#          - ip helper-address 10.16.56.18   
+#          - ip helper-address 10.15.153.94  
+          - no shut
+        parents: interface vlan 7
+
+    - name: Configuring L3-Vlan8 for Data
+      ios_config:
+        lines:
+          - description Data-vlan
+          - ip address 10.16.232.254 255.255.255.0 
+          - ip pim sparse-mode
+          - ip helper-address 10.16.56.18   
+          - ip helper-address 10.15.153.94  
+          - no shut
+        parents: interface vlan 8
+
+    - name: Configuring L3-Vlan3000 for Data
+      ios_config:
+        lines:
+          - description AV-vlan
+          - ip address 10.16.237.126 255.255.255.128 
+          - ip pim sparse-mode
+          - ip helper-address 10.16.56.18   
+          - ip helper-address 10.15.153.94  
+          - no shut
+        parents: interface vlan 3000
+
+    - name: Configuring L3-Vlan3001 for Fac-Util-vlan
+      ios_config:
+        lines:
+          - description Fac-Util-vlan
+          - ip address 10.16.237.254 255.255.255.128 
+          - ip pim sparse-mode
+          - ip helper-address 10.16.56.18   
+          - ip helper-address 10.15.153.94  
+          - no shut
+        parents: interface vlan 3001
+
+    - name: Configuring L3-Vlan3002 for Lab-Limited-vlan
+      ios_config:
+        lines:
+          - description Lab-Limited-vlan
+          - ip address 10.16.238.126 255.255.255.128
+          - ip helper-address 10.16.56.18   
+          - ip helper-address 10.15.153.94  
+          - no shut
+        parents: interface vlan 3002
+
+    - name: Configuring L3-Vlan888 for IPConsole
+      ios_config:
+        lines:
+          - description IP-Console
+          - ip address 10.16.224.254 255.255.255.0 
+          - ip pim sparse-mode
+          - ip helper-address 10.198.16.99   
+          - no shut
+        parents: interface vlan 888
+      register: print_output
+    - debug: var=print_output
+
+    - name: Configuring L3-Vlan100 for Voice-Vlan
+      ios_config:
+        lines:
+          - description Voice-Vlan
+          - ip address 10.241.213.254 255.255.254.0 
+          - ip helper-address 10.16.56.18   
+          - ip helper-address 10.15.153.94  
+          - no shut
+        parents: interface vlan 100
+      register: print_output
+    - debug: var=print_output
+    
+    - name: Configuring OSPF Routing 
+      ios_config:
+        lines:
+          - network 10.16.224.0 0.0.0.255 area 0.0.0.0
+          - network 10.16.225.16 0.0.0.15 area 0.0.0.0
+          - network 10.16.225.32 0.0.0.15 area 0.0.0.0
+          - network 10.16.227.0 0.0.0.255 area 0.0.0.0
+          - network 10.16.228.0 0.0.0.255 area 0.0.0.0
+          - network 10.16.230.0 0.0.0.255 area 0.0.0.0
+          - network 10.16.233.0 0.0.0.255 area 0.0.0.0
+          - network 10.16.234.0 0.0.0.255 area 0.0.0.0
+          - network 10.16.237.0 0.0.0.127 area 0.0.0.0
+          - network 10.16.237.128 0.0.0.127 area 0.0.0.0
+          - network 10.241.212.0 0.0.1.255 area 0.0.0.0
+          - network 10.16.238.0 0.0.0.127 area 0.0.0.0
+          - network 10.16.225.249 0.0.0.0 area 0.0.0.0
+        parents: router ospf 1
+
+
+    - name: Adding SNMP Configuration
+      ios_config:
+        lines:
+          - snmp-server community IcnFpaPFc RO
+          - snmp-server community JlteaCjE RW 2
+          - snmp-server location US2D-La Jolla San Diego Server Room
+          - snmp-server contact network-core@synopsys.com
+          - snmp-server enable traps snmp authentication linkdown linkup coldstart warmstart
+          - snmp-server enable traps tty
+          - snmp-server enable traps vtp
+          - snmp-server enable traps vlancreate
+          - snmp-server enable traps vlandelete
+          - snmp-server enable traps port-security
+          - snmp-server enable traps fru-ctrl
+          - snmp-server enable traps flash insertion
+          - snmp-server enable traps flash removal
+          - snmp-server enable traps entity
+          - snmp-server enable traps envmon fan shutdown supply temperature status
+          - snmp-server enable traps config-copy
+          - snmp-server enable traps config
+          - snmp-server enable traps bridge newroot topologychange
+          - snmp-server enable traps stpx inconsistency root-inconsistency loop-inconsistency
+          - snmp-server enable traps syslog
+          - snmp-server enable traps ipmulticast
+          - snmp-server enable traps msdp
+          - snmp-server enable traps pim neighbor-change rp-mapping-change invalid-pim-message
+          - snmp-server enable traps vlan-membership
+          - snmp-server host 10.15.152.68 version 2c IcnFpaPFc 
+      register: print_output
+    - debug: var=print_output
+  
+    - name: Save the running-config
+      ios_config:
+        save_when: modified

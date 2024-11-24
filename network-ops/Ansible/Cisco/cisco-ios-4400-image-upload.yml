@@ -1,0 +1,70 @@
+# Ansible Playbook to Upload Image to Cisco IOS devices #
+---
+- name: Upload New IOS Image
+  hosts: test-device
+  gather_facts: false
+  connection: network-cli
+
+  vars: 
+    upgrade_ios_version: 16.12.5
+    new_ios_file_name: "isr4400-universalk9.16.12.05.SPA.bin"
+    old_ios_file_name: "isr4400-universalk9.16.06.07.SPA.bin"
+    ansible_command_timeout: 3600
+    md5_checksum_4400: 944adcc401b8f2440dfa4af0ba0e7e16
+
+  tasks:
+    - name: CHECK CURRENT VERSION
+      ios_facts:
+
+  
+    - debug:
+        msg:
+        - "Current Version is {{ ansible_net_version }}"
+        - "Upgrade image is 16.12.5"
+  
+    - debug:
+        msg:
+        - "Image is not compliant and will be upgraded"
+  
+      when: ansible_net_version != upgrade_ios_version
+  
+    - name: Enable FTP for Loopback0
+      ios_config:
+        lines: 
+          - ip ftp source-interface lo0
+
+    - name: COPY_NEW_IOS_FROM_FTP (10.200.17.68)
+      cli_command:
+        command: 'copy ftp://networkadmin:Fsck16!!@10.200.17.68/Cisco/4K_Routers/{{ new_ios_file_name }} bootflash::{{ new_ios_file_name }}'
+        check_all: True
+        prompt:
+          - 'Destination filename'
+        answer:
+          - '{{ new_ios_file_name }}'
+
+    - name: Verify MD5 Checksum
+      ios_command:
+         commands:
+            - command: "verify /md5 bootflash:{{ new_ios_file_name }} {{ md5_checksum_4400 }}"
+      register: md5_result
+#      debug: var=md5_result
+      vars:
+        ansible_command_timeout: 300
+
+### You can Comment the below section if you DO NOT WANT TO CHANGE the BOOT RIGHT NOW ####
+
+    - name: Changing the boot variable 
+      ios_config:
+        lines:
+          - no boot system flash bootflash:isr4400-universalk9.03.16.07b.S.155-3.S7b-ext.SPA.bin
+          - no boot system flash bootflash:{{ old_ios_file_name }}
+          - boot system flash bootflash:{{ new_ios_file_name }}
+          - boot system flash bootflash:{{ old_ios_file_name }}
+      when: md5_checksum_4400 == md5_result.stdout[0].split(' = ')[1]
+
+### You can Comment the below section if you DO NOT WANT TO CHANGE the BOOT RIGHT NOW ####
+
+    - name: Save the running-config if modified
+      ios_config:
+        save_when: modified
+

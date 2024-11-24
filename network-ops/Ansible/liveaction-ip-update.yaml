@@ -1,0 +1,52 @@
+- name: update netflow
+  hosts: test-liveaction
+  connection: local
+  gather_facts: False
+ 
+  vars:
+    creds:
+      host: "{{ inventory_hostname }}"
+      username: "{{username}}"
+      password: "{{password}}"
+ 
+  tasks:
+    - name: get exporter name
+      ios_command:
+        provider: "{{creds}}"
+        commands: show run | in flow exporter
+      register: output
+      ignore_errors: True
+ 
+    - name: Change config if exists
+      block:
+        - name: set exporter name
+          set_fact:
+            exporter: "{{output.stdout[0]}}"
+ 
+        - name: reconfigure exporter to new ip
+          ios_config:
+            provider: "{{creds}}"
+            lines:
+              - destination 10.200.28.1
+            parents: "{{exporter}}"
+ 
+        - name: save config
+          ios_command:
+            provider: "{{creds}}"
+            commands: write memory
+       
+        - name: export output to a file
+          shell: echo "{{ inventory_hostname }} is DONE" >> output_flow.txt
+ 
+      when: (output.stdout[0] != "")
+ 
+    - name: Raise error if no exporter config exists
+      block:
+        - name: print message on console
+          debug:
+            msg: "{{inventory_hostname}} has no flow exporter configured"
+       
+        - name: export output to a file
+          shell: echo "{{inventory_hostname}} has no flow exporter configured" >> output_flow.txt
+ 
+      when: (output.stdout[0] == "")

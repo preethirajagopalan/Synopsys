@@ -1,0 +1,5 @@
+items,@timestamp,type,network_device_type
+LIVEACTION,2022-01-11 14:30:01.842505,Synopsys_Monitoring_Services,monitoring_services
+SOLARWINDS,2022-01-11 14:30:01.842505,Synopsys_Monitoring_Services,monitoring_services
+CAPE SENSORS,2022-01-11 14:30:01.842505,Synopsys_Monitoring_Services,monitoring_services
+ELK,2022-01-11 14:30:01.842505,Synopsys_Monitoring_Services,monitoring_services

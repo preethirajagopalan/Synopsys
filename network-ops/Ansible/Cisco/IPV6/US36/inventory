@@ -1,0 +1,6 @@
+[us36:vars]
+ansible_connection=network_cli
+ansible_network_os=ios
+
+[us36]
+us36-c3850-1

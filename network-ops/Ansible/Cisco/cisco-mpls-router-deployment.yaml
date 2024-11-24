@@ -1,0 +1,1038 @@
+---
+- name: New MPLS Router Deployment
+  hosts: test-device
+  gather_facts: false
+  connection: local
+
+  vars:
+    backup_root: /home/netadmin/Ansible/Device-Backups
+
+  tasks:
+
+    - name: Adding Domain Configs
+      ios_config:
+        lines:
+          - ip domain-name internal.synopsys.com
+          - ip name-server 10.228.0.1
+          - ip name-server 10.228.0.2
+      register: print_output
+    - debug: var=print_output
+
+    - name: Adding Clock
+      ios_config:
+        lines:
+          - clock timezone PST -8 0
+          - clock summer-time PST recurring
+
+    - name: Add MOTD
+      ios_banner:
+        banner: motd
+        text: |
+           NOTICE TO USERS
+           This is an official computer system and is the property of Synopsys, Inc.
+           It is for authorized users only.  Unauthorized users are prohibited.
+           Users (authorized or unauthorized) have no explicit
+           or implicit expectation of privacy.  Any or all uses of this system
+           may be subject to one or more of the following actions:  interception,
+           monitoring, recording, auditing, inspection and disclosing to security
+           personnel and law enforcement personnel, as well as authorized
+           officials of other agencies, both domestic and foreign.  By using this
+           system, the user consents to these actions.  Unauthorized or improper
+           use of this system may result in administrative disciplinary action
+           and civil and criminal penalties.  By accessing this system you
+           indicate your awareness of and consent to these terms and conditions
+           of use.  Discontinue access immediately if you do not agree to the
+           conditions stated in this notice.
+           **Predictable Success**
+
+    - name: Adding New Hostname
+      ios_config:
+        lines:
+          - hostname "{{ inventory_hostname }}"
+
+    - name: Resolve NTP Information Disclosure Vulnerability
+      ios_config:
+        lines:
+          - permit 10.228.0.1
+          - permit 10.228.0.2
+          - permit 10.228.0.3
+          - permit 10.228.0.4
+          - permit 10.228.0.5
+        parents: ip access-list standard NTP_ACCESS
+        before: no ip access-list standard NTP_ACCESS
+        match: exact
+      register: print_output
+    - debug: var=print_output
+    
+
+    - name: Resolve NTP Information Disclosure Vulnerability
+      ios_config:
+        lines:
+          - ntp access-group peer NTP_ACCESS
+      register: print_output
+    - debug: var=print_output
+
+    - name: Enable AAA
+      ios_config:
+        lines:
+          - aaa new-model
+
+    - name: Adding AAA servers
+      ios_config:
+        lines:
+          - server 10.15.72.1
+          - server 10.200.17.69
+        parents: aaa group server tacacs+ Acs-Box
+        match: exact
+
+    - name: Adding AAA configs
+      ios_config:
+        lines:
+          - aaa authentication login Telnet_Access group Acs-Box line
+          - aaa authentication login Console_Access line
+          - aaa authorization config-commands
+          - aaa authorization exec Authorize_Access group Acs-Box none
+          - aaa authorization commands 15 Authorize_Access group Acs-Box none
+          - aaa accounting commands 1 default start-stop group Acs-Box
+          - aaa accounting commands 15 default start-stop group Acs-Box
+          - ip tacacs source Loopback 0
+      register: print_output
+    - debug: var=print_output
+
+    - name: Adding TACACS Server authentication
+      ios_config:
+        lines:
+          - tacacs-server host 10.200.17.69 key 0 cppmcisco
+          - tacacs-server host 10.15.72.1 key 0 cppmcisco
+      register: print_output
+    - debug: var=print_output
+
+    - name: Adding TACACS to line vty 0 4
+      ios_config:
+        lines:
+          - authorization commands 15 Authorize_Access
+          - authorization exec Authorize_Access
+          - login authentication Telnet_Access
+        parents: line vty 0 4
+        match: exact
+      register: print_output
+    - debug: var=print_output
+
+    - name: Disable smart install
+      ios_config:
+        lines:
+          - no vstack
+      ignore_errors: yes
+      register: print_output
+    - debug: var=print_output
+
+    - name: Disable SSHv1
+      ios_config:
+        lines:
+          - ip ssh version 2
+      ignore_errors: yes
+      register: print_output
+    - debug: var=print_output
+
+    - name: Disable http/https
+      ios_config:
+        lines:
+          - no ip http server
+          - no ip http secure-server
+      ignore_errors: yes
+      register: print_output
+    - debug: var=print_output
+
+    - name: Disable Telnet
+      ios_config:
+        lines:
+          - transport input ssh
+        parents: line vty 0 4
+      register: print_output
+    - debug: var=print_output
+      ignore_errors: yes
+
+    - name: Resolve NTP Information Disclosure Vulnerability
+      ios_config:
+        lines:
+          - permit 10.228.0.1
+          - permit 10.228.0.2
+          - permit 10.228.0.3
+          - permit 10.228.0.4
+          - permit 10.228.0.5
+        parents: ip access-list standard NTP_ACCESS
+        before: no ip access-list standard NTP_ACCESS
+        match: exact
+      register: print_output
+    - debug: var=print_output
+
+    - name: Resolve NTP Information Disclosure Vulnerability
+      ios_config:
+        lines:
+          - ntp access-group peer NTP_ACCESS
+      register: print_output
+    - debug: var=print_output
+      ignore_errors: yes
+
+    - name: Disable CDP Feature
+      ios_config:
+        lines:
+          - no cdp run
+      register: print_output
+    - debug: var=print_output
+      ignore_errors: yes
+
+
+#    - name: Template for QoS Configuration
+
+    - name: Access-list for Webcast
+      ios_config:
+        lines:
+          - permit ip any host 10.12.227.250
+          - permit ip any host 10.12.229.163
+          - permit ip any host 10.13.191.238
+          - permit ip any host 10.12.235.218
+          - permit ip any host 10.12.235.214
+          - permit ip host 10.12.235.218 any
+          - permit ip host 10.12.235.214 any
+          - permit ip host 10.12.227.250 any
+          - permit ip host 10.12.229.163 any
+          - permit ip host 10.13.191.238 any
+        parents: ip access-list extended WEBCAST
+        before: no ip access-list extended WEBCAST
+        match: exact
+      register: print_output
+    - debug: var=print_output
+
+    - name: Access-list for SIGNALING
+      ios_config:
+        lines:
+          - permit tcp any any range 5060 5061
+          - permit tcp any range 5060 5061 any
+          - permit udp any any range 5060 5061
+          - permit udp any range 5060 5061 any
+          - permit tcp any any eq 2000
+          - permit tcp any eq 2000 any
+          - permit tcp any any range 1718 1720
+          - permit tcp any range 1718 1720 any
+          - permit tcp any any eq 1503
+          - permit tcp any eq 1503 any
+        parents: ip access-list extended SIGNALING
+        before: no ip access-list extended SIGNALING
+        match: exact
+      register: print_output
+    - debug: var=print_output
+
+    - name: Access-list for ROUTING
+      ios_config:
+        lines:
+          - permit tcp any any eq bgp
+          - permit tcp any eq bgp any
+        parents: ip access-list extended ROUTING
+        before: no ip access-list extended ROUTING
+        match: exact
+      register: print_output
+    - debug: var=print_output
+
+    - name: Access-list for INTERACTIVE
+      ios_config:
+        lines:
+          - permit tcp any any eq 1494 2598
+          - permit tcp any eq 1494 2598 any
+          - permit tcp any any eq 23
+          - permit tcp any eq 23 any
+          - permit icmp any any
+          - permit tcp any any eq 513
+          - permit tcp any eq 513 any
+        parents: ip access-list extended INTERACTIVE
+        before: no ip access-list extended INTERACTIVE
+        match: exact
+      register: print_output
+    - debug: var=print_output
+
+    - name: Access-list for CRITICAL_DATA
+      ios_config:
+        lines:
+          - permit udp any any eq 53
+          - permit udp any eq 53 any
+          - permit tcp 10.0.0.0 0.255.255.255 10.0.0.0 0.255.255.255 eq www 8080 8000 9958 443
+          - permit tcp 10.0.0.0 0.255.255.255 eq www 8080 8000 9958 443 10.0.0.0 0.255.255.255
+        parents: ip access-list extended CRITICAL_DATA
+        before: no ip access-list extended CRITICAL_DATA
+        match: exact
+      register: print_output
+    - debug: var=print_output
+
+    - name: Access-list for BULK_DATA
+      ios_config:
+        lines:
+          - permit tcp 10.0.0.0 0.255.255.255 10.0.0.0 0.255.255.255 eq 20 21
+          - permit tcp 10.0.0.0 0.255.255.255 eq 20 21 10.0.0.0 0.255.255.255
+          - permit tcp any any eq 873 514
+          - permit tcp any eq 873 514 any
+          - permit tcp any any eq 1111 1666 1700 1777 1888 1999 2888 1222 7004 1900
+          - permit tcp any eq 1111 1666 1700 1777 1888 1999 2888 1222 7004 1900 any
+          - permit tcp any any eq 2100 2666
+          - permit tcp any eq 2100 2666 any
+          - permit tcp any any eq 10000
+          - permit tcp any eq 10000 any
+          - permit tcp any any range 10565 10569
+          - permit tcp any range 10565 10569 any
+          - permit tcp any any range 11104 11105
+          - permit tcp any range 11104 11105 any
+          - permit tcp 10.0.0.0 0.255.255.255 10.0.0.0 0.255.255.255 eq 22
+          - permit tcp 10.0.0.0 0.255.255.255 eq 22 10.0.0.0 0.255.255.255
+        parents: ip access-list extended BULK_DATA
+        before: no ip access-list extended BULK_DATA
+        match: exact
+      register: print_output
+    - debug: var=print_output
+
+
+    - name: Access-list for LOW_DATA
+      ios_config:
+        lines:
+          - permit tcp any host 10.130.64.14 eq 16384
+          - permit tcp any host 10.130.64.15 eq 16384
+          - permit tcp any host 10.144.202.175 eq 16384
+          - permit tcp any host 10.144.139.46 eq 16384
+          - permit tcp any host 146.225.15.80 eq 16384
+          - permit tcp any host 10.13.219.104 eq 16384
+          - permit tcp host 10.130.64.14 eq 16384 any
+          - permit tcp host 10.130.64.15 eq 16384 any
+          - permit tcp host 10.144.202.175 eq 16384 any
+          - permit tcp host 10.144.139.46 eq 16384 any
+          - permit tcp host 146.225.15.80 eq 16384 any
+          - permit tcp host 10.13.219.104 eq 16384 any
+          - permit ip any host 10.116.18.146
+          - permit ip any host 10.130.8.27
+          - permit ip any host 10.130.65.106
+          - permit ip any host 10.225.19.157
+          - permit ip any host 10.144.172.68
+          - permit ip any host 10.144.180.218
+          - permit ip any host 10.128.36.76
+          - permit ip any host 10.107.24.101
+          - permit ip any host 10.131.9.214
+          - permit ip any host 10.13.217.248
+          - permit ip any host 10.13.217.250
+          - permit ip any host 10.15.125.105
+          - permit ip any host 10.15.125.110
+          - permit ip host 10.116.18.146 any
+          - permit ip host 10.130.8.27 any
+          - permit ip host 10.130.65.106 any
+          - permit ip host 10.225.19.157 any
+          - permit ip host 10.144.172.68 any
+          - permit ip host 10.144.180.218 any
+          - permit ip host 10.128.36.76 any
+          - permit ip host 10.107.24.101 any
+          - permit ip host 10.131.9.214 any
+          - permit ip host 10.13.217.248 any
+          - permit ip host 10.13.217.250 any
+          - permit ip host 10.15.125.105 any
+          - permit ip host 10.15.125.110 any
+          - permit udp any any eq 137 138
+          - permit udp any eq 137 138 any
+          - permit tcp any any eq 139 445
+          - permit tcp any eq 139 445 any
+        parents: ip access-list extended LOW_DATA
+        before: no ip access-list extended LOW_DATA
+        match: exact
+      register: print_output
+    - debug: var=print_output
+
+    - name: Access-list for GRE
+      ios_config:
+        lines:
+          - permit gre any any
+        parents: ip access-list extended GRE
+        before: no ip access-list extended GRE
+        match: exact
+      register: print_output
+    - debug: var=print_output
+
+    - name: CLASS_MAP for VOIP
+      ios_config:
+        lines:
+          - match dscp ef
+          - match protocol rtp payload-type 0
+          - match protocol rtp payload-type 8
+          - match protocol rtp payload-type 9
+          - match protocol rtp payload-type 18
+          - match protocol cisco-jabber-audio
+        parents: class-map match-any VOIP
+      register: print_output
+    - debug: var=print_output
+
+    - name: CLASS_MAP for VIDEO_CONF
+      ios_config:
+        lines:
+          - match dscp af41 cs4
+        parents: class-map match-any VIDEO_CONF
+      register: print_output
+    - debug: var=print_output
+
+    - name: CLASS_MAP for EF
+      ios_config:
+        lines:
+          - match dscp ef
+        parents: class-map match-any EF
+      register: print_output
+    - debug: var=print_output
+
+    - name: CLASS_MAP for JABBER_VIDEO
+      ios_config:
+        lines:
+          - match dscp af42
+          - match protocol cisco-jabber-video
+        parents: class-map match-any JABBER_VIDEO
+      register: print_output
+    - debug: var=print_output
+
+    - name: CLASS_MAP for WEBCAST
+      ios_config:
+        lines:
+          - match access-group name WEBCAST
+        parents: class-map match-any WEBCAST
+      register: print_output
+    - debug: var=print_output
+
+    - name: CLASS_MAP for SIGNALING
+      ios_config:
+        lines:
+          - match dscp cs6
+          - match access-group name SIGNALING
+        parents: class-map match-any SIGNALING
+      register: print_output
+    - debug: var=print_output
+
+    - name: CLASS_MAP for ROUTING
+      ios_config:
+        lines:
+          - match access-group name ROUTING
+        parents: class-map match-any ROUTING
+      register: print_output
+    - debug: var=print_output
+
+    - name: CLASS_MAP for INTERACTIVE
+      ios_config:
+        lines:
+          - match access-group name INTERACTIVE
+        parents: class-map match-any INTERACTIVE
+      register: print_output
+    - debug: var=print_output
+
+    - name: CLASS_MAP for CRITICAL_DATA
+      ios_config:
+        lines:
+          - match access-group name CRITICAL_DATA
+          - match protocol sap
+          - match protocol share-point
+        parents: class-map match-any CRITICAL_DATA
+      register: print_output
+    - debug: var=print_output
+
+    - name: CLASS_MAP for BULK_DATA
+      ios_config:
+        lines:
+          - match access-group name BULK_DATA
+          - match protocol ftp
+          - match protocol rsync
+          - match protocol ssh
+          - match protocol shell
+        parents: class-map match-any BULK_DATA
+      register: print_output
+    - debug: var=print_output
+
+    - name: CLASS_MAP for LOW_DATA
+      ios_config:
+        lines:
+          - match access-group name LOW_DATA
+          - match protocol cifs
+        parents: class-map match-any LOW_DATA
+      register: print_output
+    - debug: var=print_output
+
+    - name: CLASS_MAP for P2P_MULTIMEDIA
+      ios_config:
+        lines:
+          - match protocol flash-video
+          - match protocol pandora
+          - match protocol realmedia
+          - match protocol rtsp
+          - match protocol shoutcast
+          - match protocol sling
+          - match protocol streamwork
+          - match protocol youtube
+          - match protocol ares
+          - match protocol bittorrent
+          - match protocol directconnect
+          - match protocol edonkey
+          - match protocol encrypted-emule
+          - match protocol filetopia
+          - match protocol gnutella
+          - match protocol groove
+          - match protocol napster
+          - match protocol pando
+          - match protocol ppstream
+          - match protocol share
+          - match protocol soulseek
+          - match protocol winny
+        parents: class-map match-any P2P_MULTIMEDIA
+      register: print_output
+    - debug: var=print_output
+
+    - name: CLASS_MAP for GRE
+      ios_config:
+        lines:
+          - match access-group name GRE
+        parents: class-map match-any GRE
+      register: print_output
+    - debug: var=print_output
+
+    - name: CLASS_MAP for EF
+      ios_config:
+        lines:
+          - match dscp ef
+        parents: class-map match-any EF
+      register: print_output
+    - debug: var=print_output
+
+    - name: CLASS_MAP for AF4X
+      ios_config:
+        lines:
+          - match dscp af41 af42 af43 cs4
+        parents: class-map match-any AF4X
+      register: print_output
+    - debug: var=print_output
+
+    - name: CLASS_MAP for AF3X
+      ios_config:
+        lines:
+          - match dscp cs3 af31
+        parents: class-map match-any AF3X
+      register: print_output
+    - debug: var=print_output
+
+    - name: CLASS_MAP for AF2X
+      ios_config:
+        lines:
+          - match dscp af21
+        parents: class-map match-any AF2X
+      register: print_output
+    - debug: var=print_output
+
+    - name: CLASS_MAP for AF1X
+      ios_config:
+        lines:
+          - match dscp af11 af12 af13
+        parents: class-map match-any AF1X
+      register: print_output
+    - debug: var=print_output
+
+    - name: POLICY-MAP For MARKING_VOIP
+      ios_config:
+        lines:
+          - set dscp ef
+        parents:
+          - policy-map MARKING
+          - class VOIP
+      register: print_output
+    - debug: var=print_output
+
+    - name: POLICY-MAP For MARKING_VIDEO_CONF
+      ios_config:
+        lines:
+          - set dscp af41
+        parents:
+          - policy-map MARKING
+          - class VIDEO_CONF
+      register: print_output
+    - debug: var=print_output
+
+    - name: POLICY-MAP For JABBER_VIDEO
+      ios_config:
+        lines:
+          - set dscp af42
+        parents:
+          - policy-map MARKING
+          - class JABBER_VIDEO
+      register: print_output
+    - debug: var=print_output
+
+    - name: POLICY-MAP For WEBCAST
+      ios_config:
+        lines:
+          - set dscp af43
+        parents:
+          - policy-map MARKING
+          - class WEBCAST
+      register: print_output
+    - debug: var=print_output
+
+    - name: POLICY-MAP For SIGNALING
+      ios_config:
+        lines:
+          - set dscp cs3
+        parents:
+          - policy-map MARKING
+          - class SIGNALING
+      register: print_output
+    - debug: var=print_output
+
+    - name: POLICY-MAP For ROUTING
+      ios_config:
+        lines:
+          - set dscp cs6
+        parents:
+          - policy-map MARKING
+          - class ROUTING
+      register: print_output
+    - debug: var=print_output
+
+    - name: POLICY-MAP For INTERACTIVE
+      ios_config:
+        lines:
+          - set dscp af31
+        parents:
+          - policy-map MARKING
+          - class INTERACTIVE
+      register: print_output
+    - debug: var=print_output
+
+    - name: POLICY-MAP For CRITICAL_DATA
+      ios_config:
+        lines:
+          - set dscp af21
+        parents:
+          - policy-map MARKING
+          - class CRITICAL_DATA
+      register: print_output
+    - debug: var=print_output
+
+    - name: POLICY-MAP For BULK_DATA
+      ios_config:
+        lines:
+          - set dscp af11
+        parents:
+          - policy-map MARKING
+          - class BULK_DATA
+      register: print_output
+    - debug: var=print_output
+
+    - name: POLICY-MAP For LOW_DATA
+      ios_config:
+        lines:
+          - set dscp af12
+        parents:
+          - policy-map MARKING
+          - class LOW_DATA
+      register: print_output
+    - debug: var=print_output
+
+    - name: POLICY-MAP For P2P_MULTIMEDIA
+      ios_config:
+        lines:
+          - set dscp af13
+        parents:
+          - policy-map MARKING
+          - class P2P_MULTIMEDIA
+      register: print_output
+    - debug: var=print_output
+
+    - name: POLICY-MAP For GRE
+      ios_config:
+        lines:
+          - police cir 1000000000 conform-action transmit exceed-action transmit
+        parents:
+          - policy-map MARKING
+          - class GRE
+      register: print_output
+    - debug: var=print_output
+
+    - name: POLICY-MAP For MPLS_OUT
+      ios_config:
+        lines:
+          - priority 500
+        parents:
+          - policy-map MPLS_OUT
+          - class EF
+      register: print_output
+    - debug: var=print_output
+
+# Change the values for below parameters according to the BW allocated for MPLS Circuit
+
+    - name: POLICY-MAP For MPLS_OUT_AF4X
+      ios_config:
+        lines:
+          - bandwidth remaining percent 30
+          - queue-limit 400
+        parents:
+          - policy-map MPLS_OUT
+          - class AF4X
+      register: print_output
+    - debug: var=print_output
+
+    - name: POLICY-MAP For MPLS_OUT_AF3X
+      ios_config:
+        lines:
+          - bandwidth remaining percent 20
+          - queue-limit 300
+        parents:
+          - policy-map MPLS_OUT
+          - class AF3X
+      register: print_output
+    - debug: var=print_output
+
+    - name: POLICY-MAP For MPLS_OUT_AF2X
+      ios_config:
+        lines:
+          - bandwidth remaining percent 20
+          - queue-limit 400
+        parents:
+          - policy-map MPLS_OUT
+          - class AF2X
+      register: print_output
+    - debug: var=print_output
+
+    - name: POLICY-MAP For MPLS_OUT_AF1X
+      ios_config:
+        lines:
+          - bandwidth remaining percent 10
+          - queue-limit 400
+        parents:
+          - policy-map MPLS_OUT
+          - class AF1X
+      register: print_output
+    - debug: var=print_output
+
+    - name: POLICY-MAP For MPLS_OUT_default
+      ios_config:
+        lines:
+          - bandwidth remaining percent 20
+          - queue-limit 600
+        parents:
+          - policy-map MPLS_OUT
+          - class class-default
+      register: print_output
+    - debug: var=print_output
+
+# Update the Policy-Map for Resepctive MPLS Bandwidth 
+
+    - name: Policy-MAP For MPLS_SHAPE_30M
+      ios_config:
+        lines:
+          - service-policy MPLS_OUT
+        parents:
+          - policy-map MPLS_SHAPE_30M
+          - class class-default
+          - shape average 30000000
+
+    - name: Adding LIVEACTION-FLOWRECORD
+      ios_config:
+        lines:
+          - description DO NOT MODIFY. USED BY LIVEACTION.
+          - match ipv4 tos
+          - match ipv4 protocol
+          - match ipv4 source address
+          - match ipv4 destination address
+          - match transport source-port
+          - match transport destination-port
+          - match interface input
+          - match flow direction
+          - collect routing source as
+          - collect routing destination as
+          - collect routing next-hop address ipv4
+          - collect ipv4 dscp
+          - collect ipv4 id
+          - collect ipv4 source prefix
+          - collect ipv4 source mask
+          - collect ipv4 destination mask
+          - collect transport tcp flags
+          - collect interface output
+          - collect flow sampler
+          - collect counter bytes
+          - collect counter packets
+          - collect timestamp sys-uptime first
+          - collect timestamp sys-uptime last
+          - collect application name
+        parents:
+          - flow record LIVEACTION-FLOWRECORD
+      register: print_output
+    - debug: var=print_output
+
+    - name: Adding LIVEACTION-FLOWEXPORTER
+      ios_config:
+        lines:
+          - description DO NOT MODIFY. USED BY LIVEACTION.
+          - destination 10.200.28.1
+          - source Loopback0
+          - transport udp 2055
+          - option interface-table
+          - option application-table
+        parents:
+          - flow exporter LIVEACTION-FLOWEXPORTER
+      register: print_output
+    - debug: var=print_output
+
+    - name: Adding LIVEACTION-FLOWEXPORTER-IPFIX
+      ios_config:
+        lines:
+          - description DO NOT MODIFY. USED BY LIVEACTION.
+          - destination 10.200.28.1
+          - source Loopback0
+          - transport udp 2055
+          - export-protocol ipfix
+          - option interface-table
+          - option vrf-table
+          - option application-table
+          - option c3pl-class-table
+          - option c3pl-policy-table
+        parents:
+          - flow exporter LIVEACTION-FLOWEXPORTER-IPFIX
+      register: print_output
+    - debug: var=print_output
+
+    - name: Adding LIVEACTION-FLOWMONITOR
+      ios_config:
+        lines:
+          - description DO NOT MODIFY. USED BY LIVEACTION.
+          - exporter LIVEACTION-FLOWEXPORTER
+          - exporter LIVEACTION-FLOWEXPORTER-IPFIX
+          - cache timeout inactive 10
+          - cache timeout active 60
+          - record LIVEACTION-FLOWRECORD
+        parents:
+          - flow monitor LIVEACTION-FLOWMONITOR
+      register: print_output
+    - debug: var=print_output
+
+    - name: Adding Prefix-list for ANYCAST
+      ios_config:
+        lines:
+          - ip prefix-list ANYCAST seq 10 permit 10.228.0.1/32
+          - ip prefix-list ANYCAST seq 20 permit 10.228.0.2/32
+          - ip prefix-list ANYCAST seq 30 permit 10.228.0.6/32
+      register: print_output
+    - debug: var=print_output
+
+    - name: Adding Community PfR-Site
+      ios_config:
+        lines:
+          - ip community-list standard PfR-Site permit 0:65501
+      register: print_output
+    - debug: var=print_output
+
+    - name: Adding Community PfR-Dual-ISP
+      ios_config:
+        lines:
+          - ip community-list standard PfR-Dual-ISP permit 0:65502
+      register: print_output
+    - debug: var=print_output
+
+    - name: Adding Community AMERICAS
+      ios_config:
+        lines:
+          - ip community-list expanded AMERICAS permit ^651[0-9][0-9]
+      register: print_output
+    - debug: var=print_output
+
+    - name: Adding Prefix-list for Default-Route
+      ios_config:
+        lines:
+          - ip prefix-list default-route seq 5 permit 0.0.0.0/0
+      register: print_output
+    - debug: var=print_output
+
+    - name: Adding Access-list standard for default-route-next-hop
+      ios_config:
+        lines:
+          - permit 10.227.4.255
+          - permit 10.227.5.255
+          - permit 10.227.6.254
+        parents: ip access-list standard default-route-next-hop
+        before: no ip access-list standard default-route-next-hop
+        match: exact
+      register: print_output
+    - debug: var=print_output
+
+    - name: Adding as-path access-list 2
+      ios_config:
+        lines:
+          - ip as-path access-list 2 permit ^$
+      register: print_output
+    - debug: var=print_output
+
+    - name: Adding as-path access-list 10
+      ios_config:
+        lines:
+          - ip as-path access-list 3 permit ^65100
+      register: print_output
+    - debug: var=print_output
+
+    - name: Adding as-path access-list 10
+      ios_config:
+        lines:
+          - ip as-path access-list 10 permit ^65000 65200
+          - ip as-path access-list 10 permit ^65000 65300
+      register: print_output
+    - debug: var=print_output
+
+    - name: Define Route-map for DEFAULT-ORIGINATE
+      ios_config:
+        lines:
+          - match ip address prefix-list default-route
+          - match ip next-hop default-route-next-hop
+          - set metric 1000
+          - set metric-type type-1
+          - set tag 100
+        parents: route-map DEFAULT-ORIGINATE permit 10
+      register: print_output
+    - debug: var=print_output
+
+# Make sure to Change the AS # for the respective site 
+
+    - name: Define Route-map for DMVPN-OUT
+      ios_config:
+        lines:
+          - match as-path 2
+          - set community 65166 65501     
+        parents: route-map DMVPN-OUT permit 10
+      register: print_output
+    - debug: var=print_output
+
+    - name: Define Route-map for GLOBAL-MPLS permit 10
+      ios_config:
+        lines:
+          - description permit local AS route
+          - match as-path 2
+        parents: route-map GLOBAL-MPLS permit 10
+      register: print_output
+    - debug: var=print_output
+
+    - name: Define Route-map for MPLS-GLOBAL permit 10
+      ios_config:
+        lines:
+          - description permit all
+        parents: route-map MPLS-GLOBAL permit 10
+      register: print_output
+    - debug: var=print_output
+
+    - name: Define Route-map for MPLS-IN
+      ios_config:
+        lines:
+          - description Accept everything in
+          - description Set local-pref for none primary region default route to 50
+          - match ip address prefix-list default-route
+          - match as-path 10
+          - set local-preference 50
+        parents: route-map MPLS-IN permit 10
+      register: print_output
+    - debug: var=print_output
+
+    - name: Define Route-map for MPLS-IN
+      ios_config:
+        lines:
+          - description Accept everything in
+        parents: route-map MPLS-IN permit 20
+      register: print_output
+    - debug: var=print_output
+
+    - name: Define Route-map for BGP-to-OSPF permit 10
+      ios_config:
+        lines:
+          - set metric 100
+          - set metric-type type-1
+          - set tag 100
+        parents: route-map BGP-to-OSPF permit 10
+      register: print_output
+    - debug: var=print_output
+
+    - name: Define Route-map for OSPF-to-BGP deny 10
+      ios_config:
+        lines:
+          - match tag 100
+        parents: route-map OSPF-to-BGP deny 10
+      register: print_output
+    - debug: var=print_output
+
+    - name: Define Route-map for OSPF-to-BGP permit 20
+      ios_config:
+        lines:
+          - description Accept everything
+        parents: route-map OSPF-to-BGP permit 20
+      register: print_output
+    - debug: var=print_output
+
+    - name: Define Route-map for MPLS-OUT permit 5
+      ios_config:
+        lines:
+          - description Add MED 12 to Anycast prefixes
+          - match ip address prefix-list ANYCAST
+          - set metric 12
+          - set community 65166
+        parents: route-map MPLS-OUT permit 5
+      register: print_output
+    - debug: var=print_output
+
+    - name: Define Route-map for MPLS-OUT permit 10
+      ios_config:
+        lines:
+          - description Send local routes only
+          - match as-path 2
+          - set community 65166
+        parents: route-map MPLS-OUT permit 10
+      register: print_output
+    - debug: var=print_output
+
+    - name: Define Route-map for DMVPN-IN permit 5
+      ios_config:
+        lines:
+          - match community PfR-Site
+          - set local-preference 200
+        parents: route-map DMVPN-IN permit 5
+      register: print_output
+    - debug: var=print_output
+
+    - name: Define Route-map for DMVPN-IN permit 6
+      ios_config:
+        lines:
+          - match community PfR-Dual-ISP
+          - set local-preference 150
+        parents: route-map DMVPN-IN permit 5
+      register: print_output
+    - debug: var=print_output
+
+    - name: Define Route-map for DMVPN-IN permit 10
+      ios_config:
+        lines:
+          - description Accept everything in
+        parents: route-map DMVPN-IN permit 10
+      register: print_output
+    - debug: var=print_output
+
+    - name: Adding SNMP Configuration
+      ios_config:
+        lines:
+          - snmp-server community IcnFpaPFc RO
+          - snmp-server community JlteaCjE RW 2
+          - snmp-server trap-source Loopback0
+          - snmp-server location US2D San Diego La Jolla
+          - snmp-server contact network-core@synopsys.com
+          - snmp-server enable traps ospf state-change
+          - snmp-server enable traps ospf errors
+          - snmp-server enable traps config
+          - snmp-server enable traps entity
+          - snmp-server enable traps cpu threshold
+          - snmp-server enable traps bgp state-changes limited
+          - snmp-server enable traps stpx root-inconsistency loop-inconsistency
+          - snmp-server enable traps vlancreate
+          - snmp-server enable traps vlandelete
+          - snmp-server host 10.15.120.3 IcnFpaPFc 
+          - snmp-server host 10.15.152.68 version 2c IcnFpaPFc 
+          - snmp ifmib ifindex persist
+      register: print_output
+    - debug: var=print_output
+
+    - name: Save the running-config
+      ios_config:
+        save_when: modified

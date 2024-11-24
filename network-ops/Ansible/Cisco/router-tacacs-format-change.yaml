@@ -1,0 +1,297 @@
+---
+- name: TACACS AND RADIUS CONFIG FORMAT UPDATE
+  hosts: test-device
+  gather_facts: false
+  connection: network-cli
+
+  tasks:
+    - name: Verify logging server
+      ios_command:
+        commands:
+          - show run | in logging host
+      register: output
+    - name: Print Output
+      debug: var=output
+
+    - name: Remove old logging server
+      ios_config:
+        lines:
+          - "{{'no ' + item}}"
+      ignore_errors: yes
+      loop: "{{output.stdout_lines[0]}}"
+      when:
+        - output.stdout_lines[0] != ["logging host 10.200.17.66"]
+        - output.stdout_lines[0] != [""]
+
+    - name: Adding Service Timestamps for Debug and Logs
+      ios_config:
+        lines:
+          - service timestamps debug datetime localtime show-timezone
+          - service timestamps log datetime localtime show-timezone
+
+    - name: Adding new logging server
+      ios_config:
+        lines:
+          - logging host 10.200.17.66
+          - logging buffered 100000
+          - logging facility local0
+          - logging trap debugging
+          - logging source-interface GigabitEthernet0/0                      ## < ---------- VLAN CHANGE ###
+
+    - name: Removing older TACACS entries
+      ios_config:
+        lines: 
+          - no tacacs-server host 10.225.16.1
+          - no tacacs-server host 10.13.191.246
+          - no tacacs-server host 10.15.72.1
+          - no tacacs-server host 10.130.65.79
+          - no tacacs-server host 10.200.17.69
+          - no tacacs-server host 10.15.152.160
+          - no tacacs-server host 10.4.124.220
+          - no tacacs-server host 10.128.36.236
+          - no tacacs-server host 10.200.17.69
+          - no tacacs-server host 10.144.172.54
+        match: exact
+      ignore_errors: yes
+
+    - name: Removing IP entries from AAA Profile 
+      ios_config:
+        lines:
+          - no server 10.15.72.1
+          - no server 10.225.16.1
+          - no server 10.13.191.246
+          - no server 10.130.65.79
+          - no server 10.200.17.69
+          - no server 10.4.124.220
+          - no server 10.15.152.160
+          - no server 10.128.36.236 
+          - no server 10.200.17.69
+          - no server 10.144.172.54
+        parents: aaa group server tacacs+ Acs-Box
+        match: exact
+      ignore_errors: yes
+
+    - name: Removing TACACS Source configuration from Global Config
+      ios_config:
+        lines:
+          - no ip tacacs source-interface Loopback0
+      ignore_errors: yes
+
+###### Changing the TACACS template with new format #####
+##
+#
+#    - name: Changing TACACS format for us01cppm01
+#      ios_config:
+#        lines:
+#          - address ipv4 10.200.17.69
+#          - key cppmcisco
+#        parents: tacacs server us01cppm01
+
+    - name: Changing TACACS format for us01cppm02
+      ios_config:
+        lines:
+          - address ipv4 10.15.72.1
+          - key cppmcisco
+        parents: tacacs server us01cppm02
+#
+#    - name: Changing TACACS format for cn58cppm01
+#      ios_config:
+#        lines:
+#          - address ipv4 10.132.50.4
+#          - key cppmcisco
+#        parents: tacacs server cn58cppm01
+#
+
+#    - name: Changing TACACS format for jp01cppm01
+#      ios_config:
+#        lines:
+#          - address ipv4 10.128.36.236
+#          - key cppmcisco
+#        parents: tacacs server jp01cppm01
+
+#    - name: Changing TACACS format for us01cppm02
+#      ios_config:
+#        lines:
+#          - address ipv4 10.15.72.1
+#          - key cppmcisco
+#        parents: tacacs server us01cppm02  
+
+    - name: Changing TACACS format for mdccppm01
+      ios_config:
+        lines:
+          - address ipv4 10.225.16.1
+          - key cppmcisco
+        parents: tacacs server mdccppm01  
+
+
+#    - name: Changing TACACS format for indccppm01
+#      ios_config:
+#        lines:
+#          - address ipv4 10.144.172.54
+#          - key cppmcisco
+#        parents: tacacs server indccppm01
+
+#    - name: Changing TACACS format for am04cppm01
+#      ios_config:
+#        lines:
+#          - address ipv4 10.116.19.14
+#          - key cppmcisco
+#        parents: tacacs server am04cppm01
+
+#    - name: Changing TACACS format for us03cppm01
+#      ios_config:
+#        lines:
+#          - address ipv4 10.4.124.220
+#          - key cppmcisco
+#        parents: tacacs server us03cppm01
+
+#### Make sure the Source interface is the right VLAN #####
+
+
+    - name: Changing AAA group to include the new format 
+      ios_config:
+        lines:
+#          - server name us03cppm01
+#          - server name us01cppm01
+          - server name us01cppm02
+#          - server name us03cppm01
+          - server name mdccppm01
+#          - server name us01cppm01
+#          - server name us01cppm02
+#          - server name jp01cppm01
+#          - server name cn58cppm01
+#          - server name jp01cppm01
+#          - server name cn58cppm01
+#          - server name indccppm01
+#          - server name jp01cppm01
+#         - server name am04cppm01
+#          - server name mdccppm01
+#          - server name us01cppm01
+#          - server name jp01cppm01
+#          - server name us01cppm02
+#          - server name indccppm01
+          - ip tacacs source-interface GigabitEthernet0/0   ## < ---------- VLAN CHANGE ###
+        parents: aaa group server tacacs+ Acs-Box  
+
+#    - name: Remove unwanted AAA group 
+#      ios_config:
+#        lines:
+#          - no server name us03cppm01
+#          - no server name us01cppm01
+#          - no server name us01cppm02
+#          - no server name us03cppm01
+#          - no server name mdccppm01
+#          - no server name us01cppm01
+#          - no server name us01cppm02
+#          - server name jp01cppm01
+#          - server name cn58cppm01
+#          - no server name jp01cppm01
+#          - no server name cn58cppm01
+#          - server name indccppm01
+#          - no server name us01cppm01
+#          - no server name us01cppm02
+#          - ip tacacs source-interface Vlan6    ## < ---------- VLAN CHANGE ###
+#        parents: aaa group server tacacs+ Acs-Box  
+#
+#    - name: Remove unwanted TACACS Server 
+#      ios_config:
+#        lines:
+#          - no tacacs server cn42cppm01
+#          - no tacacs server us01cppm01
+#          - no tacacs server mdccppm01
+#          - no tacacs server us03cppm01
+
+    - name: Remove Source loopback from Global Config
+      ios_config:
+        lines:
+          - no ip tacacs source-interface GigabitEthernet0/0      ## < ---------- VLAN CHANGE ###
+          
+## Adding Config Archive Logging ###
+
+    - name: Adding Config Archive logging
+      ios_config:
+        lines:
+          - logging enable
+          - logging size 200
+          - notify syslog contenttype plaintext
+          - hidekeys
+        parents:
+          - archive
+          - log config
+
+## Adding Security Hardening Template 
+
+    - name: Disable smart install
+      ios_config:
+        lines:
+          - no vstack
+      ignore_errors: yes
+
+    - name: Disable SSHv1
+      ios_config:
+        lines:
+          - no ip ssh version
+          - ip ssh version 2
+      ignore_errors: yes
+
+    - name: Disable http/https
+      ios_config:
+        lines:
+          - no ip http server
+          - no ip http secure-server
+          - no ip ssh server algorithm mac hmac-sha1-96
+          - no ip ssh server algorithm mac hmac-sha1
+      ignore_errors: yes
+
+    - name: Disable Telnet
+      ios_config:
+        lines:
+          - transport input ssh
+        parents: line vty 0 4
+
+    - name: Resolve NTP Information Disclosure Vulnerability
+      ios_config:
+        lines:
+          - permit 10.228.0.1
+          - permit 10.228.0.2
+          - permit 10.228.0.3
+          - permit 10.228.0.4
+          - permit 10.228.0.5
+        parents: ip access-list standard NTP_ACCESS
+        before: no ip access-list standard NTP_ACCESS
+        match: exact
+
+    - name: Resolve NTP Information Disclosure Vulnerability
+      ios_config:
+        lines:
+          - ntp access-group peer NTP_ACCESS
+
+    - name: NTP Disclosure
+      ios_config:
+        lines:
+          - ntp server 10.228.0.1
+          - ntp server 10.228.0.2
+          - ntp server 10.228.0.3
+          - ntp server 10.228.0.4
+          - ntp server 10.228.0.5
+
+    - name: Enable Service Password Encryption
+      ios_config:
+        lines:
+          - service password-encryption
+      ignore_errors: yes
+    
+    - name: Character Generator Traffic Amplification
+      ios_config:
+        lines:
+          - no service udp-small-servers
+          - no service tcp-small-servers
+      ignore_errors: yes
+
+    - name: Save the running-config if modified
+      ios_config:
+        save_when: modified
+
+    - name: Save the Configuration
+      ios_config:
+        save_when: modified

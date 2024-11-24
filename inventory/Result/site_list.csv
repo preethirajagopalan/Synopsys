@@ -1,0 +1,16 @@
+@timestamp,type,total items,network_device_type
+2022-01-11 12:00:02.595351,site,125,site_count_all
+2022-01-11 12:00:02.595351,site,46,site_count_us
+2022-01-11 12:00:02.595351,site,79,site_count_int
+2022-01-11 12:00:02.595351,dc_site,20,dc_site_count_us
+2022-01-11 12:00:02.595351,dc_site,31,dc_site_count_int
+2022-01-11 12:00:02.595351,dc_site,51,dc_site_count_all
+2022-01-11 12:00:02.595351,dmz_site,1,dmz_site_count_us
+2022-01-11 12:00:02.595351,dmz_site,5,dmz_site_count_int
+2022-01-11 12:00:02.595351,dmz_site,6,dmz_site_count_all
+2022-01-11 12:00:02.595351,scs_site,1,scs_site_count_us
+2022-01-11 12:00:02.595351,scs_site,1,scs_site_count_int
+2022-01-11 12:00:02.595351,scs_site,2,scs_site_count_all
+2022-01-11 12:00:02.595351,cppm,5,cppm_int
+2022-01-11 12:00:02.595351,cppm,5,cppm_us
+2022-01-11 12:00:02.595351,cppm,10,cppm_all

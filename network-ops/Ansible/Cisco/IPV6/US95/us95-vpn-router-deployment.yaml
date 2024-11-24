@@ -1,0 +1,271 @@
+---
+- name: IPV6 Deployment
+  hosts: test-device
+  gather_facts: false
+  connection: network-cli
+
+  tasks:
+    - name: Enabling IPv6 Unicast Routing
+      ios_config:
+        lines:
+          - ipv6 unicast-routing
+          - ipv6 cef distributed
+
+    - name: Add IPv6 Default-Route
+      ios_config:
+        lines:
+          - ipv6 prefix-list DEFAULT-ROUTE-V6 seq 5 permit ::/0
+    
+    - name: Access-list DEFAULT-ROUTE-NEXT-HOP-V6
+      ios_config:
+        lines:
+          - permit ipv6 any host 2620:12D:E03E:2:4::FFFF
+          - permit ipv6 any host 2620:12D:E03E:2:5::FFFF
+          - permit ipv6 any host 2620:12D:E03E:2:6::FFFF
+        parents: ipv6 access-list DEFAULT-ROUTE-NEXT-HOP-V6
+        before: no ipv6 access-list DEFAULT-ROUTE-NEXT-HOP-V6
+        match: exact
+
+    - name: Route-Map DEFAULT-ORIGINATE-V6
+      ios_config:
+        lines:
+          - match ipv6 address prefix-list DEFAULT-ROUTE-V6
+          - match ipv6 next-hop DEFAULT-ROUTE-NEXT-HOP-V6
+          - set metric 100
+          - set metric-type type-1
+          - set tag 100
+        parents: route-map DEFAULT-ORIGINATE-V6 permit 10
+        match: exact
+
+# Make sure you change the AS # depending upon the site
+
+    - name: Enable OSPFv3
+      ios_config:
+        lines:
+          - default-information originate route-map DEFAULT-ORIGINATE-V6
+          - redistribute bgp 65135 route-map BGP-to-OSPF-V6
+        parents:
+          - router ospfv3 1
+          - address-family ipv6 unicast
+
+    - name: Route-Map BGP-to-OSPF-V6 permit 10
+      ios_config:
+        lines:
+          - set metric 1000
+          - set metric-type type-1
+          - set tag 100
+        parents: route-map BGP-to-OSPF-V6 permit 10
+        match: exact
+
+    - name: Configuring IPv6 on Loopback
+      ios_config:
+        lines:
+          - ipv6 address 2620:12D:E03A:1::2/128
+          - ipv6 enable
+          - ospfv3 1 ipv6 area 0
+        parents: interface loopback0
+        match: exact
+      
+    - name: Configuring IPv6 on Internal Interface
+      ios_config:
+        lines:
+          - ipv6 address 2620:12D:E03A:11::2/64
+          - ipv6 enable
+          - ospfv3 1 ipv6 area 0
+          - ospfv3 1 ipv6 network point-to-point
+        parents: interface GigabitEthernet0/0/2
+        match: exact
+
+#      - name: Configuring IPv6 on WAN Interface
+#        ios_config:
+#          lines:
+#            - ipv6 address 2620:12D:E03A:11::2/64
+#            - ipv6 enable
+#            - ospfv3 1 ipv6 area 0
+#            - ospfv3 1 ipv6 network point-to-point
+#          parents: interface GigabitEthernet0/0/1
+#          match: exact
+        
+    - name: Configuring IPv6 Tunnel1000
+      ios_config:
+        lines:
+          - ipv6 address 2620:12D:E03E:2:4::35/64
+          - ipv6 mtu 1400
+          - ipv6 tcp adjust-mss 1360
+          - ipv6 nhrp shortcut
+          - ipv6 nhrp redirect
+          - ipv6 nhrp holdtime 600
+          - ipv6 nhrp authentication SYN0PSYS
+          - ipv6 nhrp network-id 201405
+          - ipv6 nhrp nhs 2620:12D:E03E:2:4::FFFF nbma 149.117.79.250 multicast
+          - ipv6 nhrp nhs 2620:12D:E03E:2:5::FFFF nbma 198.182.39.5 multicast
+          - ipv6 nhrp nhs 2620:12D:E03E:2:6::FFFF nbma 198.182.50.1 multicast
+        parents: interface Tunnel1000
+        match: exact
+
+    - name: Route-Map VPN-OUT-V6 permit 10
+      ios_config:
+        lines:
+          - description Send local routes only and set community
+          - match as-path 2
+          - set as-path prepend 65135 65135 65135
+          - set community 65135 65509
+          - set ipv6 next-hop 2620:12D:E03E:2:4::33
+        parents: route-map VPN-OUT-V6 permit 10
+        match: exact  
+
+    - name: Route-Map VPN-IN-V6 permit 10
+      ios_config:
+        lines:
+          - match community PfR-Dual-ISP
+          - set local-preference 200
+        parents: route-map VPN-IN-V6 permit 10
+        match: exact
+
+    - name: Route-Map VPN-IN-V6 permit 20
+      ios_config:
+        lines:
+          - match community PfR-Site
+          - set local-preference 150
+        parents: route-map VPN-IN-V6 permit 20
+        match: exact
+
+    - name: Route-Map VPN-IN-V6 permit 30
+      ios_config:
+        lines:
+          - description set local-pref for non-primary region default route to 50
+          - match ipv6 address prefix-list DEFAULT-ROUTE-V6
+          - match as-path 10
+          - set local-preference 50
+        parents: route-map VPN-IN-V6 permit 30
+        match: exact
+
+    - name: Route-Map VPN-IN-V6 permit 40
+      ios_config:
+        lines:
+          - description set default route from Regional HUB to 500
+          - match ipv6 address prefix-list DEFAULT-ROUTE-V6
+          - set local-preference 500
+        parents: route-map VPN-IN-V6 permit 40
+        match: exact
+
+    - name: Route-Map VPN-IN-V6 permit 50
+      ios_config:
+        lines:
+          - description Allow Everything in 
+        parents: route-map VPN-IN-V6 permit 50
+        match: exact
+
+    - name: Route-Map OSPF-to-BGP-V6 deny 10
+      ios_config:
+        lines:
+          - match tag 100 
+        parents: route-map OSPF-to-BGP-V6 deny 10
+        match: exact
+
+    - name: Route-Map OSPF-to-BGP-V6 permit 20
+      ios_config:
+        lines:
+          - description Allow Everything in  
+        parents: route-map OSPF-to-BGP-V6 permit 20
+        match: exact
+
+    - name: Route-Map RECEIVE-DEFAULT-IN-V6 permit 10
+      ios_config:
+        lines:
+          - match ipv6 address prefix-list DEFAULT-ROUTE-V6
+          - set local-preference 1000
+        parents: route-map RECEIVE-DEFAULT-IN-V6 permit 10
+        match: exact    
+
+    - name: Configure Router BGP 
+      ios_config:
+        lines:
+          - neighbor 2620:12D:E03A:1::3 remote-as 65135
+          - neighbor 2620:12D:E03A:1::3 description iBGP-to-us2d-mpls-router
+          - neighbor 2620:12D:E03A:1::3 update-source Loopback0
+        parents: router bgp 65135
+
+    - name: Configure Router BGP Address-Family IPv6
+      ios_config:
+        lines:
+          - redistribute ospf 1 route-map OSPF-to-BGP-V6
+          - aggregate-address 2620:12D:E03A::/48 summary-only
+          - neighbor DMVPN send-community
+          - neighbor DMVPN allowas-in
+          - neighbor DMVPN soft-reconfiguration inbound
+          - neighbor DMVPN route-map VPN-IN-V6 in
+          - neighbor DMVPN route-map VPN-OUT-V6 out
+          - neighbor 10.227.4.255 activate
+          - neighbor 10.227.5.255 activate
+          - neighbor 10.227.6.255 activate
+          - neighbor 2620:12D:E03A:1::3 activate
+          - neighbor 2620:12D:E03A:1::3 send-community
+          - neighbor 2620:12D:E03A:1::3 next-hop-self
+          - neighbor 2620:12D:E03A:1::3 soft-reconfiguration inbound
+          - neighbor 2620:12D:E03E:2:4::48 activate
+          - neighbor 2620:12D:E03E:2:4::48 default-originate
+          - neighbor 2620:12D:E03E:2:4::48 soft-reconfiguration inbound
+          - neighbor 2620:12D:E03E:2:4::48 route-map RECEIVE-NOTHING-IN in
+          - neighbor 2620:12D:E03E:2:4::48 route-map SEND-DEFAULT-OUT-V6 out
+        parents: 
+          - router bgp 65135
+          - address-family ipv6
+
+    - name: Access-list SNPS-ACCESS-ONLY-V6
+      ios_config:
+        lines:
+          - permit ipv6 2400:B3C0::/32 any
+          - permit ipv6 2620:12D:E000::/40 any
+          - permit ipv6 2A0C:D400::/29 any
+        parents: ipv6 access-list SNPS-ACCESS-ONLY-V6
+        before: no ipv6 access-list SNPS-ACCESS-ONLY-V6
+        match: exact
+
+    - name: Adding TACACS to line vty 0 4
+      ios_config:
+        lines:
+          - ipv6 access-class SNPS-ACCESS-ONLY-V6 in
+        parents: line vty 0 4
+        match: exact
+
+    - name: Adding LIVEACTION-FLOWRECORD-IPV6
+      ios_config:
+        lines:
+          - description IPV6 flow record for LiveNX
+          - match ipv6 protocol
+          - match ipv6 source address
+          - match ipv6 destination address
+          - match transport source-port
+          - match transport destination-port
+          - match interface input
+          - match flow direction
+          - collect routing source as
+          - collect routing destination as
+          - collect routing next-hop address ipv6
+          - collect ipv6 source prefix
+          - collect ipv6 source mask
+          - collect ipv6 destination mask
+          - collect transport tcp flags
+          - collect interface output
+          - collect flow sampler
+          - collect counter bytes
+          - collect counter packets
+          - collect timestamp sys-uptime first
+          - collect timestamp sys-uptime last
+        parents: flow record LIVEACTION-FLOWRECORD-IPV6
+        match: exact
+
+    - name: Adding flow monitor LIVEACTION-FLOWMONITOR-IPV6
+      ios_config:
+        lines:
+          - exporter LIVEACTION-FLOWEXPORTER-IPFIX
+          - cache timeout inactive 10
+          - cache timeout active 60
+          - record LIVEACTION-FLOWRECORD-IPV6
+        parents: flow monitor LIVEACTION-FLOWMONITOR-IPV6
+        match: exact
+
+    - name: Save the Configuration
+      ios_config:
+        save_when: modified

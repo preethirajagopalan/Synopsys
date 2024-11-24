@@ -1,0 +1,16 @@
+items,@timestamp,type,network_device_type
+RSYNC,2022-01-11 14:30:01.842505,Optimized_Services,riverbed_onprem_services
+SNAPMIRROR,2022-01-11 14:30:01.842505,Optimized_Services,riverbed_onprem_services
+HTTP 80,2022-01-11 14:30:01.842505,Optimized_Services,riverbed_onprem_services
+PERFORCE,2022-01-11 14:30:01.842505,Optimized_Services,riverbed_onprem_services
+FTP,2022-01-11 14:30:01.842505,Optimized_Services,riverbed_onprem_services
+CIFS,2022-01-11 14:30:01.842505,Optimized_Services,riverbed_onprem_services
+SRDF,2022-01-11 14:30:01.842505,Optimized_Services,riverbed_onprem_services
+HTTPS,2022-01-11 14:30:01.842505,Optimized_Services,riverbed_onprem_services
+CITRIX,2022-01-11 14:30:01.842505,Optimized_Services,riverbed_onprem_services
+BOX,2022-01-11 14:30:01.842505,Optimized_Services,riverbed_cloud_services
+O365,2022-01-11 14:30:01.842505,Optimized_Services,riverbed_cloud_services
+O365 WEB APPS,2022-01-11 14:30:01.842505,Optimized_Services,riverbed_cloud_services
+O365 USER IDENTITY,2022-01-11 14:30:01.842505,Optimized_Services,riverbed_cloud_services
+SALESFORCE,2022-01-11 14:30:01.842505,Optimized_Services,riverbed_cloud_services
+SUCCESSFACTORS,2022-01-11 14:30:01.842505,Optimized_Services,riverbed_cloud_services

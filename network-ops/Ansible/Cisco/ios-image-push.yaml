@@ -1,0 +1,21 @@
+---
+- name: Push IOS Image
+  hosts: test-device
+  gather_facts: false
+  connection: network-cli
+
+  tasks:
+    - name: Push IOS Image
+      ios_command:
+        commands:
+          - command: "copy ftp://networkadmin:Fsck16!!@10.200.17.68/Cisco/9300-9400-9500/cat9k_iosxe.16.12.05b.SPA.bin bootflash:"
+            prompt: Destination filename [c2960xuniversalk9mz.1527.E4.bin]?
+            answer: "\r"
+
+    # - name: Save the running-config
+    #   ios_config:
+    #     save_when: modified
+
+copy ftp://networkadmin:Fsck16!!@10.200.17.68/Cisco/3650/cat3k_caa-universalk9.16.12.05b.SPA.bin flash:
+
+install add file flash:/ cat3k_caa-universalk9.16.12.05b.SPA.bin activate commit

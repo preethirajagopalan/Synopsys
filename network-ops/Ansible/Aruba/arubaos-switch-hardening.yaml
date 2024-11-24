@@ -1,0 +1,140 @@
+---
+- name: Configure ArubaOS switches to enable best practice
+  hosts: 
+  gather_facts: false
+  connection: local
+ 
+  tasks:
+
+     - name: Configure NTP
+       aruba_config:
+        lines:
+           - ntp unicast
+           - ntp server 10.228.0.1 iburst
+           - ntp server 10.228.0.1 min-poll 4 max-poll 5
+           - ntp server 10.228.0.2 iburst
+           - ntp server 10.228.0.2 min-poll 4 max-poll 5
+           - ntp server 10.228.0.3 iburst
+           - ntp server 10.228.0.3 min-poll 4 max-poll 5
+           - ntp server 10.228.0.4 iburst
+           - ntp server 10.228.0.4 min-poll 4 max-poll 5
+           - ntp server 10.228.0.5 iburst
+           - ntp server 10.228.0.5 min-poll 4 max-poll 5
+           - timesync ntp
+           - ntp enable
+
+##Configure timezone for respective location
+     - name: Configure Timezone
+       aruba_config:
+        lines:
+           - time daylight-time-rule continental-us-and-canada
+           - time timezone -300
+
+     - name: Configure Banner MOTD
+       aruba_config:
+        lines:
+           - banner motd "**************************************************************\n* *\n* NOTICE TO USERS\n* This is an official computer system
+              and is the property of Synopsys, Inc.\n* It is for authorized users only.  Unauthorized users are prohibited.\n* Users (authorized or
+              unauthorized) have no explicit\n* or implicit expectation of privacy.  Any or all uses of this system\n* may be subject to one or more of
+              the following actions  interception,\n* monitoring, recording, auditing, inspection and disclosing to security\n* personnel and law
+              enforcement personnel, as well as authorized\n* officials of other agencies, both domestic and foreign.  By using this\n* system, the user
+              consents to these actions.  Unauthorized or improper\n* use of this system may result in administrative disciplinary action\n* and civil
+              and criminal penalties.  By accessing this system you\n* indicate your awareness of and consent to these terms and conditions\n* of use. 
+              Discontinue access immediately if you do not agree to the\n* conditions stated in this notice.\n**Predictable
+              Success**\n\n**************************************************************\n"
+      
+     - name: Configure SSH Only Access
+       aruba_config:
+        lines:
+           - ip ssh
+           - no telnet-server
+           - idle-timeout 5
+
+     - name: Configure HTTPS Only Access
+       aruba_config:
+        lines:
+           - no web-management
+           ## uncomment to enable SSL web portal
+          #  - web-management ssl 443
+          #  - web-management idle-timeout 120
+
+    #  - name: Enforce TLS1.2 Connections
+    #    aruba_config:
+    #     lines:
+    #        - tls application all lowest-version tls1.2 cipher aes256-sha256
+    #     responses:
+    #     lines: y
+    #     match: exact
+    #        - ye
+    #       #  - tls application all lowest-version tls1.2 cipher aes128-sha256
+    #       #  - ye
+    #       #  - tls application all lowest-version tls1.2 cipher aes256-sha
+    #       #  - ye
+
+     - name: Configure SSH File Transfer Access
+       aruba_config:
+        lines:
+           - ip ssh filetransfer
+           - no tftp server
+           - no tftp client
+
+##Configure snmp location
+     - name: Configure SNMP Access
+       aruba_config:
+        lines:
+           - snmp-server community "IcnFpaPFc" operator
+           - snmp-server community "JlteaCjE" operator
+           - snmp-server location <location>
+          #  - no snmp-server community public
+
+     - name: Configure Synopsys DNS Anycast
+       aruba_config:
+        lines:
+           - ip dns domain-name "internal.synopsys.com"
+           - ip dns server-address priority 1 10.228.0.1
+           - ip dns server-address priority 2 10.228.0.2
+
+     - name: Configure Syslog
+       aruba_config:
+        lines:
+           - logging 10.200.17.66 udp
+           - logging origin-id hostname
+           - logging severity info
+           - logging facility local7
+
+     - name: Configure Login ACL
+       aruba_config:
+        lines:
+           - ip authorized-manager 10.0.0.0 255.0.0.0 access manager access-method all
+
+     - name: Configure Local Admin Account
+       aruba_config:
+        lines:
+           - password manager user-name admin plaintext <password>
+
+##Change radius host to respective regional servers
+     - name: Configure Radius Authentication for SSH and Web, console remains as local
+       aruba_config:
+        lines:
+          ### uncomment for radius config for API/Web portal only
+          #  - radius-server host 10.15.72.1 key <key>
+          #  - radius-server host 10.200.17.69 key <key>
+           - tacacs-server host 10.15.72.1 key <key>
+           - tacacs-server host 10.200.17.69 key <key>
+           - aaa accounting update periodic 5
+           - aaa accounting exec start-stop tacacs
+           - aaa accounting system start-stop tacacs
+           - aaa authentication login privilege-mode
+           - aaa authentication console login local
+           - aaa authentication console enable local
+           - aaa authentication ssh login tacacs local
+           - aaa authentication ssh enable tacacs local
+          # # # uncomment to enable radius web login
+          #  - aaa authentication web login peap-mschapv2 local
+          #  - aaa authentication web enable peap-mschapv2 local
+
+     - name: Configure Console Access Timeout
+       aruba_config:
+        lines:
+           - console inactivity-timer 10
+

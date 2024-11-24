@@ -1,0 +1,14 @@
+---
+- name: MLX
+  hosts: test-device
+  gather_facts: no
+  #connection: ssh
+
+  tasks:
+    - name: MLX-MAC-LOOKUP
+      slxos_command:
+        commands: "show ver"
+      register: output
+    - name: Print Output
+      debug: var=output
+

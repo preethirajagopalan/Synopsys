@@ -1,0 +1,29 @@
+---
+- name: Failover for all US-East Guest Controllers
+  hosts: aruba-us-east
+  gather_facts: false
+  connection: local
+
+  ##THIS SCRIPT ONLY WORKS FOR NON-MOBILITY OS CONTROLLERS!!##
+
+ #Failover all US-East guest controllers to US04 Guest Controller
+  tasks:
+     - name: Configure GRE tunnel to US04 guest controller (us04-guest-wifi-mgmt)
+       aruba_config:
+        lines:
+           - interface tunnel 100
+           - tunnel destination 10.32.1.89
+           - end
+        parents: interface tunnel 100
+        save_when: modified
+
+ #Failover all US-East guest controllers to DC8 Guest Controller
+    # - name: Configure GRE tunnel to DC8 guest controller (dc8-guest-wifi-mgmt)
+    #   aruba_config:
+    #    lines:
+    #        - interface tunnel 100
+    #        - tunnel destination 10.13.134.19
+    #        - end
+    #    parents: interface tunnel 100
+    #    save_when: modified
+

@@ -1,0 +1,19 @@
+- name: Hardening script for Non-Mobility Managed Aruba Controllers
+  hosts: aruba-7k-dmz
+  gather_facts: false
+  connection: local
+
+  ##THIS SCRIPT ONLY WORKS FOR NON-MOBILITY OS CONTROLLERS!!##
+
+ #Enforce TLS1.2 Only SSL Connections
+  tasks:
+     - name: Enforce TLS1.2 Only SSL Connections
+       aruba_config:
+        lines:
+           - web-server profile
+           - ssl-protocol tlsv1.2
+           - ciphers high
+           - end
+        parents: web-server profile
+        save_when: modified
+        

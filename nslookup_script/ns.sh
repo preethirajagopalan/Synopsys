@@ -1,0 +1,1 @@
+for i in `cat output.txt`; do nslookup $i | grep ^Name -A1| awk '{print $2}';echo;done > outputfile2.txt

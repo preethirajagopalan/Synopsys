@@ -1,0 +1,220 @@
+---
+- name: IPV6 Deployment
+  hosts: test-device
+  gather_facts: false
+  connection: network-cli
+
+  tasks:
+    - name: Enabling IPv6 Unicast Routing
+      ios_config:
+        lines:
+          - ipv6 unicast-routing
+          - ipv6 cef distributed
+
+    - name: Enable OSPFv3
+      ios_config:
+        lines:
+          - address-family ipv6 unicast
+        parents:
+          - router ospfv3 1
+
+# For Older Switches Interface ID's will be different 
+# Please Change the Interface ID's accordingly
+#
+    - name: Configuring IPv6 on Interface Connecting to MPLS Router
+      ios_config:
+        lines:
+          - ipv6 address 2620:12D:E03E:12::2/64
+          - ipv6 enable
+          - ospfv3 1 ipv6 area 0
+          - ospfv3 1 ipv6 network point-to-point
+        parents: interface GigabitEthernet3/1
+        match: exact
+
+    - name: Configuring IPv6 on Interface Connecting to VPN Router
+      ios_config:
+        lines:
+          - ipv6 address 2620:12D:E03E:11::2/64
+          - ipv6 enable
+          - ospfv3 1 ipv6 area 0
+          - ospfv3 1 ipv6 network point-to-point
+        parents: interface GigabitEthernet2/1
+        match: exact
+
+    - name: Configuring IPv6 on Loopback
+      ios_config:
+        lines:
+          - ipv6 address 2620:12D:E03E:1::1/128
+          - ipv6 enable
+          - ospfv3 1 ipv6 area 0
+        parents: interface loopback0
+        match: exact
+
+# VLAN ID's may be different in some sites so make sure 
+# You have the right VLAN ID's assigned for the respective sites 
+#
+
+    - name: Configuring IPv6 for VLAN5 (Employee Wireless)
+      ios_config:
+        lines:
+          - ipv6 address 2620:12D:E03E:2::1/64
+          - ipv6 enable
+          - ospfv3 1 ipv6 area 0
+        parents: interface Vlan5
+        match: exact
+
+    - name: Configuring IPv6 for VLAN3 (Internet Wireless)
+      ios_config:
+        lines:
+          - ipv6 address 2620:12D:E03E:3::1/64
+          - ipv6 enable
+          - ipv6 nd ra interval 30
+          - ipv6 nd ra dns server 2620:119:35::35
+          - ipv6 nd ra dns server 2620:119:35::53
+          - ospfv3 1 ipv6 area 0
+        parents: interface Vlan3
+        match: exact
+
+    - name: Configuring IPv6 for VLAN8 (Server VLAN)
+      ios_config:
+        lines:
+          - ipv6 address 2620:12D:E03E:7::1/64
+          - ipv6 enable
+          - ospfv3 1 ipv6 area 0
+        parents: interface Vlan8
+        match: exact
+
+    - name: Configuring IPv6 for VLAN7 (Data VLAN)
+      ios_config:
+        lines:
+          - ipv6 address 2620:12D:E03E:8::1/64
+          - ipv6 enable
+          - ospfv3 1 ipv6 area 0
+        parents: interface Vlan7
+        match: exact
+
+    - name: Configuring IPv6 for VLAN12 (SIG ANET)
+      ios_config:
+        lines:
+          - ipv6 address 2620:12D:E03E:c::1/64
+          - ipv6 enable
+          - ospfv3 1 ipv6 area 0
+          - ipv6 nd ra interval 30
+          - ipv6 nd ra dns server 2001:4860:4860::8888
+          - ipv6 nd ra dns server 2001:4860:4860::8844
+        parents: interface Vlan12
+        match: exact
+
+    - name: Configuring IPv6 for VLAN36 (Voice VLAN)
+      ios_config:
+        lines:
+          - description Voice-Vlan
+          - ipv6 address 2620:12D:E03E:9::1/64
+          - ipv6 enable
+          - ospfv3 1 ipv6 area 0
+        parents: interface Vlan36
+        match: exact
+
+    - name: Configuring IPv6 for VLAN888
+      ios_config:
+        lines:
+          - ipv6 address 2620:12D:E03E::1/64
+          - ipv6 enable
+          - ospfv3 1 ipv6 area 0
+        parents: interface Vlan100
+        match: exact
+
+    - name: Configuring IPv6 for VLAN3000
+      ios_config:
+        lines:
+          - ipv6 address 2620:12D:E03E:D::1/64
+          - ipv6 enable
+          - ospfv3 1 ipv6 area 0
+        parents: interface Vlan3000
+        match: exact
+
+    - name: Configuring IPv6 for VLAN3001
+      ios_config:
+        lines:
+          - ipv6 address 2620:12D:E03E:E::1/64
+          - ipv6 enable
+          - ospfv3 1 ipv6 area 0
+        parents: interface Vlan3001
+        match: exact
+
+    - name: Configuring IPv6 for VLAN3002
+      ios_config:
+        lines:
+          - ipv6 address 2620:12D:E03E:F::1/64
+          - ipv6 enable
+          - ospfv3 1 ipv6 area 0
+        parents: interface Vlan3002
+        match: exact
+
+    - name: Configuring IPv6 for VLAN777
+      ios_config:
+        lines:
+          - ipv6 address 2620:12D:E03E:6::1/64
+          - ipv6 enable
+          - ospfv3 1 ipv6 area 0
+        parents: interface Vlan777
+        match: exact
+
+
+    - name: Access-list SNPS-ACCESS-ONLY-V6
+      ios_config:
+        lines:
+          - permit ipv6 2400:B3C0::/32 any
+          - permit ipv6 2620:12D:E000::/40 any
+          - permit ipv6 2A0C:D400::/29 any
+        parents: ipv6 access-list SNPS-ACCESS-ONLY-V6
+        match: exact
+      ignore_errors: yes
+
+    - name: Adding TACACS to line vty 0 4
+      ios_config:
+        lines:
+          - ipv6 access-class SNPS-ACCESS-ONLY-V6 in
+        parents: line vty 0 4
+        match: exact
+
+##----------------- For DC & LAB Network Only ---------------------------#
+
+#Please Enable the below steps for DC network 
+
+# Make sure to enable IPV6 Address family for the DC and LAB VRF's
+
+#
+#    - name: Enabling IPv6 Address family for Global VRF
+#      cisco.ios.ios_ospfv3:
+#        config:
+#          processes:
+#            - process_id: 1
+#              address_family:
+#                - afi: ipv6
+#                  unicast: true
+#                  areas:
+#                    - area_id: 7.0.0.0
+#                      nssa:
+#                        set: yes
+#                        no_summary: yes 
+#
+#  
+#    - name: Enabling OSPFv3 for IPv6 Address family for DC VRF 
+#      cisco.ios.ios_ospfv3:
+#        config:
+#          processes:
+#            - process_id: 7
+#              address_family:
+#                - afi: ipv6
+#                  unicast: true
+#                  vrf: DC
+#                  areas:
+#                    - area_id: 7.0.0.0
+#                      nssa:
+#                        set: yes 
+
+                        
+    - name: Save the Configuration
+      ios_config:
+        save_when: modified

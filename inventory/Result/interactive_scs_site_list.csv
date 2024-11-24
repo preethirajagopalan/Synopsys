@@ -1,0 +1,3 @@
+items,@timestamp,type,network_device_type
+BADC,2021-12-01 12:00:03.064082,interactive_scs_site_list,interactive_scs_site
+CN08,2021-12-01 12:00:03.064082,interactive_scs_site_list,interactive_scs_site

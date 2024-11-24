@@ -1,0 +1,158 @@
+machinetype,@timestamp,vendor,network_device_type,type
+7010-US,2020-12-12 14:30:13.203156,Aruba Networks Inc,CONTROLLER_GUEST,MachineType_US
+7010-US,2020-12-12 14:30:13.203156,Aruba Networks Inc,CONTROLLER_LOCAL,MachineType_US
+7205,2020-12-12 14:30:13.203156,Aruba Networks Inc,CONTROLLER_GUEST,MachineType_US
+7205,2020-12-12 14:30:13.203156,Aruba Networks Inc,CONTROLLER_LOCAL,MachineType_US
+APIC Server M2,2020-12-12 14:30:13.203156,Cisco,ACI_STUFF,MachineType_US
+Aruba 7220 wireless controller,2020-12-12 14:30:13.203156,Aruba Networks Inc,CONTROLLER_LOCAL,MachineType_US
+Aruba 7220 wireless controller,2020-12-12 14:30:13.203156,Aruba Networks Inc,CONTROLLER_RAP,MachineType_US
+Aruba JL074A 3810M-48G-PoE+-1-slot Switch,2020-12-12 14:30:13.203156,HP,SWITCH_LAB,MachineType_US
+Aruba Networks Inc,2020-12-12 14:30:13.203156,Aruba Networks Inc,CONTROLLER_LOCAL,MachineType_US
+C3560E,2020-12-12 14:30:13.203156,Cisco,ROUTER_SW_MODULE,MachineType_US
+Catalyst 2960,2020-12-12 14:30:13.203156,Cisco,NON_NETWORK_STUFF,MachineType_US
+Catalyst 356024 PS,2020-12-12 14:30:13.203156,Cisco,SWITCH_ACCESS,MachineType_US
+Catalyst 3560X 48,2020-12-12 14:30:13.203156,Cisco,NON_NETWORK_STUFF,MachineType_US
+Catalyst 3560X 48,2020-12-12 14:30:13.203156,Cisco,SWITCH_ACCESS,MachineType_US
+Catalyst 3560X 48,2020-12-12 14:30:13.203156,Cisco,SWITCH_CORE,MachineType_US
+Catalyst 3560X 48,2020-12-12 14:30:13.203156,Cisco,SWITCH_DC,MachineType_US
+Catalyst 3560X 48,2020-12-12 14:30:13.203156,Cisco,SWITCH_LAB,MachineType_US
+Catalyst 3560X 48 PoE,2020-12-12 14:30:13.203156,Cisco,SWITCH_ACCESS,MachineType_US
+Catalyst 3560X 48 PoE,2020-12-12 14:30:13.203156,Cisco,SWITCH_CORE,MachineType_US
+Catalyst 3560X 48 PoE,2020-12-12 14:30:13.203156,Cisco,SWITCH_LAB,MachineType_US
+Catalyst 3560X-48U,2020-12-12 14:30:13.203156,Cisco,SWITCH_ACCESS,MachineType_US
+Catalyst 37xx Stack,2020-12-12 14:30:13.203156,Cisco,SWITCH_ACCESS,MachineType_US
+Catalyst 37xx Stack,2020-12-12 14:30:13.203156,Cisco,SWITCH_IP_MGMT,MachineType_US
+Check Point Software Technologies Ltd,2020-12-12 14:30:13.203156,Check Point Software Technologies Ltd,CHECKPOINT_FW,MachineType_US
+Check Point Software Technologies Ltd,2020-12-12 14:30:13.203156,Check Point Software Technologies Ltd,NON_NETWORK_STUFF,MachineType_US
+CheckPoint 12200,2020-12-12 14:30:13.203156,Check Point Software Technologies Ltd,CHECKPOINT_FW,MachineType_US
+CheckPoint 13500,2020-12-12 14:30:13.203156,Check Point Software Technologies Ltd,CHECKPOINT_FW,MachineType_US
+CheckPoint 3200,2020-12-12 14:30:13.203156,Check Point Software Technologies Ltd,CHECKPOINT_FW,MachineType_US
+CheckPoint 3200,2020-12-12 14:30:13.203156,Check Point Software Technologies Ltd,NON_NETWORK_STUFF,MachineType_US
+CheckPoint 4400,2020-12-12 14:30:13.203156,Check Point Software Technologies Ltd,CHECKPOINT_FW,MachineType_US
+CheckPoint 5400,2020-12-12 14:30:13.203156,Check Point Software Technologies Ltd,CHECKPOINT_FW,MachineType_US
+CheckPoint 5600,2020-12-12 14:30:13.203156,Check Point Software Technologies Ltd,CHECKPOINT_FW,MachineType_US
+CheckPoint IP290,2020-12-12 14:30:13.203156,Check Point Software Technologies Ltd,CHECKPOINT_FW,MachineType_US
+CheckPoint OpenServer,2020-12-12 14:30:13.203156,Check Point Software Technologies Ltd,CHECKPOINT_MGMT_LOG_SERVER,MachineType_US
+CheckPoint OpenServer,2020-12-12 14:30:13.203156,Check Point Software Technologies Ltd,NON_NETWORK_STUFF,MachineType_US
+Cisco,2020-12-12 14:30:13.203156,Cisco,ACI_STUFF,MachineType_US
+Cisco,2020-12-12 14:30:13.203156,Cisco,SWITCH_DC,MachineType_US
+Cisco 2821,2020-12-12 14:30:13.203156,Cisco,NON_NETWORK_STUFF,MachineType_US
+Cisco 2951K9,2020-12-12 14:30:13.203156,Cisco,ROUTER_MPLS,MachineType_US
+Cisco 3845,2020-12-12 14:30:13.203156,Cisco,NON_NETWORK_STUFF,MachineType_US
+Cisco 3945K9,2020-12-12 14:30:13.203156,Cisco,NON_NETWORK_STUFF,MachineType_US
+Cisco 4321 ISR,2020-12-12 14:30:13.203156,Cisco,NON_NETWORK_STUFF,MachineType_US
+Cisco 4331 ISR,2020-12-12 14:30:13.203156,Cisco,ROUTER_MPLS,MachineType_US
+Cisco 4331 ISR,2020-12-12 14:30:13.203156,Cisco,ROUTER_VPN,MachineType_US
+Cisco 4351 ISR,2020-12-12 14:30:13.203156,Cisco,NETWORK_MANAGED_SCRIPT_SERVER,MachineType_US
+Cisco 4351 ISR,2020-12-12 14:30:13.203156,Cisco,NON_NETWORK_STUFF,MachineType_US
+Cisco 4431 ISR,2020-12-12 14:30:13.203156,Cisco,NON_NETWORK_STUFF,MachineType_US
+Cisco 4431 ISR,2020-12-12 14:30:13.203156,Cisco,ROUTER,MachineType_US
+Cisco 4431 ISR,2020-12-12 14:30:13.203156,Cisco,ROUTER_MPLS,MachineType_US
+Cisco 4431 ISR,2020-12-12 14:30:13.203156,Cisco,ROUTER_VPN,MachineType_US
+Cisco ASR 1001 Router,2020-12-12 14:30:13.203156,Cisco,ROUTER_MPLS,MachineType_US
+Cisco ASR 1001-HX Router,2020-12-12 14:30:13.203156,Cisco,ROUTER,MachineType_US
+Cisco ASR 1001-X Router,2020-12-12 14:30:13.203156,Cisco,NON_NETWORK_STUFF,MachineType_US
+Cisco C9500-40X,2020-12-12 14:30:13.203156,Cisco,ROUTER,MachineType_US
+Cisco C9500-40X,2020-12-12 14:30:13.203156,Cisco,SWITCH_IP_MGMT,MachineType_US
+Cisco C9500-40X,2020-12-12 14:30:13.203156,Cisco,SWITCH_LAB,MachineType_US
+Cisco Catalyst 2960L-8TS-LL Switch,2020-12-12 14:30:13.203156,Cisco,SWITCH_ACCESS,MachineType_US
+Cisco Catalyst 2960S-24TS-S,2020-12-12 14:30:13.203156,Cisco,SWITCH_IP_MGMT,MachineType_US
+Cisco Catalyst 2960S-48TS-S,2020-12-12 14:30:13.203156,Cisco,SWITCH_IP_MGMT,MachineType_US
+Cisco Catalyst 2960X-24TS-LL Switch,2020-12-12 14:30:13.203156,Cisco,SWITCH_LAB,MachineType_US
+Cisco Catalyst 29xxStack,2020-12-12 14:30:13.203156,Cisco,NON_NETWORK_STUFF,MachineType_US
+Cisco Catalyst 29xxStack,2020-12-12 14:30:13.203156,Cisco,SWITCH_ACCESS,MachineType_US
+Cisco Catalyst 29xxStack,2020-12-12 14:30:13.203156,Cisco,SWITCH_LAB,MachineType_US
+Cisco Catalyst 3650-48PD-E,2020-12-12 14:30:13.203156,Cisco,SWITCH_CORE,MachineType_US
+Cisco Catalyst 3650-48PS-E,2020-12-12 14:30:13.203156,Cisco,SWITCH_CORE,MachineType_US
+Cisco Catalyst 3650-48TD-E,2020-12-12 14:30:13.203156,Cisco,SWITCH_LAB,MachineType_US
+Cisco Catalyst 3650-48TQ-E,2020-12-12 14:30:13.203156,Cisco,SWITCH_LAB,MachineType_US
+Cisco Catalyst 36xx stack-able ethernet switch,2020-12-12 14:30:13.203156,Cisco,NON_NETWORK_STUFF,MachineType_US
+Cisco Catalyst 36xx stack-able ethernet switch,2020-12-12 14:30:13.203156,Cisco,SWITCH_ACCESS,MachineType_US
+Cisco Catalyst 36xx stack-able ethernet switch,2020-12-12 14:30:13.203156,Cisco,SWITCH_CORE,MachineType_US
+Cisco Catalyst 36xx stack-able ethernet switch,2020-12-12 14:30:13.203156,Cisco,SWITCH_LAB,MachineType_US
+Cisco Catalyst 38xx stack,2020-12-12 14:30:13.203156,Cisco,SWITCH_ACCESS,MachineType_US
+Cisco Catalyst 38xx stack,2020-12-12 14:30:13.203156,Cisco,SWITCH_CORE,MachineType_US
+Cisco Catalyst 4500 L3,2020-12-12 14:30:13.203156,Cisco,SWITCH_CORE,MachineType_US
+Cisco Catalyst 4500 L3,2020-12-12 14:30:13.203156,Cisco,SWITCH_DC,MachineType_US
+Cisco Catalyst 4506-E,2020-12-12 14:30:13.203156,Cisco,SWITCH_ACCESS,MachineType_US
+Cisco Catalyst 4506-E,2020-12-12 14:30:13.203156,Cisco,SWITCH_CORE,MachineType_US
+Cisco Catalyst 4506-E,2020-12-12 14:30:13.203156,Cisco,SWITCH_DC,MachineType_US
+Cisco Catalyst 4510R+E,2020-12-12 14:30:13.203156,Cisco,NON_NETWORK_STUFF,MachineType_US
+Cisco Catalyst 4510R+E,2020-12-12 14:30:13.203156,Cisco,SWITCH_ACCESS,MachineType_US
+Cisco Catalyst 4510R+E,2020-12-12 14:30:13.203156,Cisco,SWITCH_CORE,MachineType_US
+Cisco Catalyst 68xx Virtual Switch,2020-12-12 14:30:13.203156,Cisco,SWITCH_CORE,MachineType_US
+Cisco Catalyst 9300 Series Switch,2020-12-12 14:30:13.203156,Cisco,SWITCH_ACCESS,MachineType_US
+Cisco Catalyst 94010R Switch,2020-12-12 14:30:13.203156,Cisco,SWITCH_ACCESS,MachineType_US
+Cisco Catalyst 9407R Switch,2020-12-12 14:30:13.203156,Cisco,SWITCH_ACCESS,MachineType_US
+Cisco Catalyst 9407R Switch,2020-12-12 14:30:13.203156,Cisco,SWITCH_CORE,MachineType_US
+Cisco Catalyst 9500 series with 32 Ports of 40G/16 Ports of 100G,2020-12-12 14:30:13.203156,Cisco,ROUTER,MachineType_US
+Cisco Catalyst 9500 series with 32 Ports of 40G/16 Ports of 100G,2020-12-12 14:30:13.203156,Cisco,SWITCH_CORE,MachineType_US
+Cisco Catalyst 9500 series with 48 Ports of 1G/10G/25G + 4 Ports of 40G/100G,2020-12-12 14:30:13.203156,Cisco,SWITCH_CORE,MachineType_US
+Cisco Catalyst 9500 series with 48 Ports of 1G/10G/25G + 4 Ports of 40G/100G,2020-12-12 14:30:13.203156,Cisco,SWITCH_IP_MGMT,MachineType_US
+Cisco CSR 1000V,2020-12-12 14:30:13.203156,Cisco,ROUTER,MachineType_US
+Cisco CSR 1000V,2020-12-12 14:30:13.203156,Cisco,ROUTER_MPLS,MachineType_US
+Cisco ISR4451,2020-12-12 14:30:13.203156,Cisco,NON_NETWORK_STUFF,MachineType_US
+Cisco ISR4451,2020-12-12 14:30:13.203156,Cisco,ROUTER,MachineType_US
+Cisco ISR4451,2020-12-12 14:30:13.203156,Cisco,ROUTER_VPN,MachineType_US
+Cisco Nexus 5548,2020-12-12 14:30:13.203156,Cisco,SWITCH_DC,MachineType_US
+Cisco Nexus 5596 UP,2020-12-12 14:30:13.203156,Cisco,NON_NETWORK_STUFF,MachineType_US
+Cisco Nexus 5596 UP,2020-12-12 14:30:13.203156,Cisco,SWITCH_DC,MachineType_US
+Cisco Nexus 5596T Switch,2020-12-12 14:30:13.203156,Cisco,SWITCH_DC,MachineType_US
+Cisco Nexus 6004 Switch,2020-12-12 14:30:13.203156,Cisco,SWITCH_DC,MachineType_US
+Cisco Nexus 93180YC-FX,2020-12-12 14:30:13.203156,Cisco,ACI_STUFF,MachineType_US
+Cisco Nexus 93180YC-FX,2020-12-12 14:30:13.203156,Cisco,SWITCH_DC,MachineType_US
+Cisco Nexus 9372PX-E,2020-12-12 14:30:13.203156,Cisco,SWITCH_DC,MachineType_US
+Cisco Nexus 9516-B2,2020-12-12 14:30:13.203156,Cisco,SWITCH_DC,MachineType_US
+Cisco UCS,2020-12-12 14:30:13.203156,Cisco,SWITCH_DC,MachineType_US
+Cisco UCS 6248UP 48-Port Fabric Interconnect,2020-12-12 14:30:13.203156,Cisco,SWITCH_DC,MachineType_US
+Cisco UCS 6296UP 96-Port Fabric Interconnect,2020-12-12 14:30:13.203156,Cisco,SWITCH_DC,MachineType_US
+Cisco Unified Communications Manager,2020-12-12 14:30:13.203156,Cisco,NON_NETWORK_STUFF,MachineType_US
+Cisco VG224,2020-12-12 14:30:13.203156,Cisco,NON_NETWORK_STUFF,MachineType_US
+Cisco WS-C4507R+E,2020-12-12 14:30:13.203156,Cisco,SWITCH_ACCESS,MachineType_US
+Cisco WS-C4507R+E,2020-12-12 14:30:13.203156,Cisco,SWITCH_CORE,MachineType_US
+CMC 8000,2020-12-12 14:30:13.203156,Riverbed Technology,NETWORK_MANAGED_SCRIPT_SERVER,MachineType_US
+CN1610,2020-12-12 14:30:13.203156,Network Appliance Corporation,NON_NETWORK_STUFF,MachineType_US
+Coriant R&D GmbH,2020-12-12 14:30:13.203156,Coriant R&D GmbH,DWDM-DC,MachineType_US
+"Crestron Electronics, Inc.",2020-12-12 14:30:13.203156,"Crestron Electronics, Inc.",NON_NETWORK_STUFF,MachineType_US
+DRAC,2020-12-12 14:30:13.203156,Dell Computer Corporation,NON_NETWORK_STUFF,MachineType_US
+Exinda Networks,2020-12-12 14:30:13.203156,Exinda Networks,NON_NETWORK_STUFF,MachineType_US
+H3C,2020-12-12 14:30:13.203156,H3C,SWITCH_IP_MGMT,MachineType_US
+HP Switch,2020-12-12 14:30:13.203156,HP,SWITCH_DC,MachineType_US
+HP Switch,2020-12-12 14:30:13.203156,HP,SWITCH_LAB,MachineType_US
+HPE-Aruba Hardware Switch HPE-2930M,2020-12-12 14:30:13.203156,HP,SWITCH_ACCESS,MachineType_US
+HPE-Aruba Hardware Switch HPE-5412R,2020-12-12 14:30:13.203156,HP,SWITCH_ACCESS,MachineType_US
+ICX6610-48,2020-12-12 14:30:13.203156,"Brocade Communications Systems, Inc.",SWITCH_ACCESS,MachineType_US
+M-500,2020-12-12 14:30:13.203156,Palo Alto Networks,NETWORK_MANAGED_SCRIPT_SERVER,MachineType_US
+MLXe-4,2020-12-12 14:30:13.203156,"Brocade Communications Systems, Inc.",SWITCH_LAB,MachineType_US
+N9K-C9508,2020-12-12 14:30:13.203156,Cisco,ACI_STUFF,MachineType_US
+NetApp Cluster,2020-12-12 14:30:13.203156,Network Appliance Corporation,NON_NETWORK_STUFF,MachineType_US
+net-snmp - Linux,2020-12-12 14:30:13.203156,net-snmp,CHECKPOINT_FW,MachineType_US
+net-snmp - Linux,2020-12-12 14:30:13.203156,net-snmp,JUNOS_PULSE,MachineType_US
+net-snmp - Linux,2020-12-12 14:30:13.203156,net-snmp,Server,MachineType_US
+Network Appliance Corporation,2020-12-12 14:30:13.203156,Network Appliance Corporation,NON_NETWORK_STUFF,MachineType_US
+Nexus 5648Q,2020-12-12 14:30:13.203156,Cisco,SWITCH_DC,MachineType_US
+Nexus 5696Q,2020-12-12 14:30:13.203156,Cisco,SWITCH_DC,MachineType_US
+Nexus 93180LC-EX,2020-12-12 14:30:13.203156,Cisco,SWITCH_DC,MachineType_US
+PA-3020,2020-12-12 14:30:13.203156,Palo Alto Networks,PAN_DC_FW,MachineType_US
+PA-3020,2020-12-12 14:30:13.203156,Palo Alto Networks,PAN_INTERNET_FW,MachineType_US
+PA-3050,2020-12-12 14:30:13.203156,Palo Alto Networks,PAN_DC_FW,MachineType_US
+PA-5050,2020-12-12 14:30:13.203156,Palo Alto Networks,PAN_DC_FW,MachineType_US
+PA-5060,2020-12-12 14:30:13.203156,Palo Alto Networks,PAN_INTERNET_FW,MachineType_US
+PA-5200,2020-12-12 14:30:13.203156,Palo Alto Networks,PAN_DC_FW,MachineType_US
+PA-5200,2020-12-12 14:30:13.203156,Palo Alto Networks,PAN_DMZ_FW,MachineType_US
+PA-7080,2020-12-12 14:30:13.203156,Palo Alto Networks,PAN_DC_FW,MachineType_US
+PacketShaper 3500,2020-12-12 14:30:13.203156,Packeteer Inc.,NON_NETWORK_STUFF,MachineType_US
+Palo Alto Networks,2020-12-12 14:30:13.203156,Palo Alto Networks,PAN_DC_FW,MachineType_US
+Palo Alto Networks,2020-12-12 14:30:13.203156,Palo Alto Networks,PAN_INTERNET_FW,MachineType_US
+Palo Alto Networks,2020-12-12 14:30:13.203156,Palo Alto Networks,PAN_LAB_FW,MachineType_US
+Palo Alto PA-220,2020-12-12 14:30:13.203156,Palo Alto Networks,NON_NETWORK_STUFF,MachineType_US
+Palo Alto PA-220,2020-12-12 14:30:13.203156,Palo Alto Networks,PAN_DC_FW,MachineType_US
+Palo Alto PA-5200,2020-12-12 14:30:13.203156,Palo Alto Networks,PAN_DC_FW,MachineType_US
+Palo Alto PA-5200,2020-12-12 14:30:13.203156,Palo Alto Networks,PAN_DMZ_FW,MachineType_US
+Palo Alto PA-5200,2020-12-12 14:30:13.203156,Palo Alto Networks,PAN_INTERNET_FW,MachineType_US
+PA-VM,2020-12-12 14:30:13.203156,Palo Alto Networks,PAN_DC_FW,MachineType_US
+Procurve Switch 2530-48G,2020-12-12 14:30:13.203156,HP,SWITCH_IP_MGMT,MachineType_US
+Pulse Secure MAG-2600,2020-12-12 14:30:13.203156,"Neoteris, Inc.",JUNOS_PULSE,MachineType_US
+Pulse Secure MAG-2600,2020-12-12 14:30:13.203156,"Neoteris, Inc.",NON_NETWORK_STUFF,MachineType_US
+Riverbed Steelhead,2020-12-12 14:30:13.203156,Riverbed Technology,RIVERBED,MachineType_US
+VMware ESX,2020-12-12 14:30:13.203156,VMware Inc.,ESXI,MachineType_US

@@ -1,0 +1,6 @@
+items,@timestamp,type,network_device_type
+US03,2021-12-01 12:00:03.064082,interactive_dmz_site_list,interactive_dmz_site
+AM04,2021-12-01 12:00:03.064082,interactive_dmz_site_list,interactive_dmz_site
+IN01,2021-12-01 12:00:03.064082,interactive_dmz_site_list,interactive_dmz_site
+JP01,2021-12-01 12:00:03.064082,interactive_dmz_site_list,interactive_dmz_site
+MDC,2021-12-01 12:00:03.064082,interactive_dmz_site_list,interactive_dmz_site

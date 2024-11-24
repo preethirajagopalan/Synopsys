@@ -1,0 +1,33 @@
+---
+- name: Verify IP-SLA
+  hosts: test-us1a
+  gather_facts: false
+  connection: network-cli
+
+  tasks:
+    - name: Verifying Current IP SLA 
+      ios_command:
+        commands:
+          - sh run | in hostname
+          - sh ip sla summary destination 198.182.56.30 | in Timeout
+        register: print_output
+
+    - name: Create a Report Folder
+      run_once: true
+      file:
+        name: IOS-IPSLA
+        state: directory
+
+    - name: RENDER FACTS AS A REPORT
+      copy: content={{ print_output.stdout }} dest=./IOS-IPSLA/{{ inventory_hostname }}.md
+
+    - name: get timestamp
+      command: date +%d%h%y@%H_%M_%S
+      register: timestamp
+
+    - name: Consolidating Data
+      assemble:
+        src: IOS-IPSLA/
+        dest: ipsla_report_{{ timestamp.stdout }}.md
+      delegate_to: localhost
+      run_once: yes   	

@@ -1,0 +1,20 @@
+---
+- name: Configure all US-West Guest Controllers
+  hosts: aruba-us-west
+  gather_facts: false
+  connection: local
+
+  ##THIS SCRIPT ONLY WORKS FOR NON-MOBILITY OS CONTROLLERS!!##
+
+ #Failover all US-West guest controllers to HQDC Guest Controller
+  tasks:
+     - name: Configure GRE tunnel to HQDC guest controller (hqdc-guest-wifi-mgmt)
+       aruba_config:
+        lines:
+           - interface tunnel 100
+           - tunnel destination 10.202.3.226
+           - end
+        parents: interface tunnel 100
+        save_when: modified
+
+
